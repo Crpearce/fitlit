@@ -1,7 +1,6 @@
 class UserRepository {
     constructor(data) {
         this.data = data
-        // console.log(this.data)
     }
     findUserData(id){
         const findUser = this.data.find(user => user.id === id)
