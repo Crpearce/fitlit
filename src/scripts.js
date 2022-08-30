@@ -25,8 +25,8 @@ const getFetch = () => {
         hydration = data[2].hydrationData
         userRepo = new UserRepository(users)
         singleUser = new User(users[getRandomUser()])
-        // singleUser.returnUserName()
         welcomeUser()
+        displayUserInfo()
         // userRepo.findUserData(singleUser.id)
     })
 }
@@ -35,22 +35,28 @@ const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
 };
 
-// const allUsers = (id) => {
-//     return users.find(user => user.id === id)
-// }
-
 const welcomeUser = () => {
     console.log(singleUser.returnUserName())
     let greeting = document.querySelector('.welcome-customer')
     greeting.innerText = `${singleUser.returnUserName()}`
     let steps = document.querySelector('.daily-steps')
-    steps.innerText = `${singleUser.name} Steps: ${singleUser.dailyStepGoal}
+    steps.innerText = `${singleUser.name.split(" ")[0]}'s Steps: ${singleUser.dailyStepGoal}
     Group Average: ${userRepo.allUsersAverageSteps()}`
 
 }
 
-// const setUserData = (someData) => {
-//     return new User(someData);
-// }
+const displayUserInfo = () => {
+    let userCard = document.querySelector('.user-card')
+    console.log(userRepo.friendNames)
+    userCard.innerText = `
+    User Info
+    Name: ${singleUser.name}
+    Address: ${singleUser.address}
+    Email: ${singleUser.email}
+    Stride Length: ${singleUser.strideLength}
+    Step Goal: ${singleUser.dailyStepGoal}
+    ${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
+    ` 
+}
 
 window.addEventListener('load', getFetch)

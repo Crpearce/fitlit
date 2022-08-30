@@ -58,7 +58,7 @@ describe("Hydration Repository", () => {
   it("should return a user's hydration data when provided a user id", () => {
     const hydrationUser1 = hydrationData1.filter(object => object.userID === 1);
     const hydrationUser2 = hydrationData1.filter(object => object.userID === 2);
-    console.log(hydrationRepository1.getUserHydrationById(1))
+    // console.log(hydrationRepository1.getUserHydrationById(1))
     expect(hydrationRepository1.getUserHydrationById(1)).to.deep.equal(hydrationUser1);
     expect(hydrationRepository1.getUserHydrationById(1).length).to.equal(2);
     expect(hydrationRepository1.getUserHydrationById(2)).to.deep.equal(hydrationUser2);

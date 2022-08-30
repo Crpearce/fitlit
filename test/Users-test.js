@@ -1,12 +1,15 @@
 import { expect } from "chai";
 import userData from "../src/data/users";
 import User from "../src/User";
+import UserRepository from "../src/UserRepository";
 
 describe("User", () => {
   let user;
+  let userRepo;
 
   beforeEach(() => {
     user = new User(userData[0]);
+    userRepo = new UserRepository(userData);
   });
 
   it("Should be a function", () => {
@@ -45,5 +48,11 @@ describe("User", () => {
   it("Should be able to greet the user", () => {
     expect(user.returnUserName()).to.equal("Welcome Luisa!");
   });
+
+//   it('Should be able to return friend names', () => {
+//     console.log(user.friends)
+//     expect(user.friendNames.length).to.equal(3)
+//     expect(user.friendNames).to.deep.equal(["Garnett Cruickshank", "Mae Connelly", "Laney Abshire"])
+//   })
   
 });
