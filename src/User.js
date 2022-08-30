@@ -8,12 +8,12 @@ class User {
         this.email = userData.email,
         this.strideLength = userData.strideLength,
         this.dailyStepGoal = userData.dailyStepGoal,
-        this.friends = []
+        this.friends = userData.friends
     }
 
     returnUserName() {
-       const greeting = `Welcome ${this.name.split(" ")[0]}!`
-       return greeting
+       const foundUserName = `Welcome ${this.name.split(" ")[0]}!`
+       return foundUserName
     }
 }
 

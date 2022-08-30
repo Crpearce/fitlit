@@ -1,5 +1,12 @@
+
+
 body, html {
   background-image: linear-gradient(to top, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
   background-repeat: no-repeat;
   height: 100%;
+  /* border: 2px solid red; */
+}
+
+h3 {
+  border: 2px solid red;
 }
