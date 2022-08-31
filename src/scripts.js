@@ -43,7 +43,6 @@ const welcomeUser = () => {
     let steps = document.querySelector('.daily-steps')
     steps.innerText = `${singleUser.name.split(" ")[0]}'s Steps: ${singleUser.dailyStepGoal}
     Group Average: ${userRepo.allUsersAverageSteps()}`
-
 }
 
 const displayUserInfo = () => {
