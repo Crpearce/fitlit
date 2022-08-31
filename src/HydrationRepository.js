@@ -26,15 +26,15 @@ class HydrationRepository {
       let userHydration = this.getUserHydrationById(id)
       let findWeek = userHydration.map(hydrationObj => hydrationObj.date)
       let dateRange = findWeek.splice(-7)
-      let weeklyAvg = userHydration.reduce((average, user) => {
+      let weeklyRange = userHydration.reduce((averageArr, user) => {
         dateRange.forEach(day => {
           if(user.date === day){
-            average += user.numOunces / 7
+            averageArr.push(` ${user.numOunces} oz.`)
           }
         })
-        return average
-      }, 0)
-      return Math.trunc(weeklyAvg)
+        return averageArr
+      }, [])
+      return weeklyRange
      }
  }
   
