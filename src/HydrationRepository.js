@@ -17,13 +17,29 @@ class HydrationRepository {
    
      ouncesConsumedByDate = (id) => {
         let userHydration = this.getUserHydrationById(id)
+        console.log('user', userHydration)
         let findDate = userHydration.map(hydrationObj => hydrationObj.date).pop()
         let todayOunces = userHydration.find(hydrationObj => hydrationObj.date === findDate)
-        console.log(todayOunces.numOunces)
         return todayOunces.numOunces
      }
-  
-  
+     //need to get average of 7 days of user's hydration
+     // right now userHydration returns 7 days of hydration data for user 1
+     // could reduce over userHydration to get average
+    
+     getWeeklyHydration = (id) => {
+      let userHydration = this.getUserHydrationById(id)
+      let findWeek = userHydration.map(hydrationObj => hydrationObj.date)
+      let dateRange = findWeek.splice(-7)
+      let weeklyAvg = userHydration.reduce((average, user) => {
+        dateRange.forEach(day => {
+          if(user.date === day){
+            average += user.numOunces / 7
+          }
+        })
+        return average
+      }, 0)
+      return Math.trunc(weeklyAvg)
+     }
  }
   
  export default HydrationRepository;
