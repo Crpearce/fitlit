@@ -31,6 +31,6 @@ describe("User Repository", () => {
   it('Should be able to return friend names', () => {
     userRepo.parseFriends(1)
     expect(userRepo.friendNames.length).to.equal(3)
-    expect(userRepo.friendNames).to.deep.equal(["Garnett Cruickshank", "Mae Connelly", "Laney Abshire"])
+    expect(userRepo.friendNames).to.deep.equal([" Garnett Cruickshank", " Mae Connelly", " Laney Abshire"])
   });
 });
