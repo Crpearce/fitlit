@@ -5,6 +5,7 @@ import './images/turing-logo.png'
 import UserRepository from './UserRepository';
 import User from './User';
 import { fetchAll } from './apiCalls';
+import HydrationRepository from './HydrationRepository';
 //import dayjs from 'dayjs'
 
 
@@ -14,6 +15,7 @@ import { fetchAll } from './apiCalls';
 
 let users;
 let userRepo;
+let hydroRepo;
 let sleep;
 let hydration;
 let singleUser;
@@ -26,8 +28,10 @@ const getFetch = () => {
         hydration = data[2].hydrationData
         userRepo = new UserRepository(users)
         singleUser = new User(users[getRandomUser()])
+        hydroRepo = new HydrationRepository(hydration)
         welcomeUser()
         displayUserInfo()
+        displyHydrationInfo()
         // userRepo.findUserData(singleUser.id)
     })
 }
@@ -43,21 +47,33 @@ const welcomeUser = () => {
     let steps = document.querySelector('.daily-steps')
     steps.innerText = `${singleUser.name.split(" ")[0]}'s Steps: ${singleUser.dailyStepGoal}
     Group Average: ${userRepo.allUsersAverageSteps()}`
-
 }
 
 const displayUserInfo = () => {
     let userCard = document.querySelector('.user-card')
     console.log(userRepo.friendNames)
-    userCard.innerText = `
+    userCard.innerHTML = `<div>
     User Info
-    Name: ${singleUser.name}
-    Address: ${singleUser.address}
-    Email: ${singleUser.email}
-    Stride Length: ${singleUser.strideLength}
-    Step Goal: ${singleUser.dailyStepGoal}
+    <br>
+    <br>Name: ${singleUser.name}
+    <br>Address: ${singleUser.address}
+    <br>Email: ${singleUser.email}
+    <br>Stride Length: ${singleUser.strideLength}
+    <br>Step Goal: ${singleUser.dailyStepGoal}
     ${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
-    ` 
+    </div>` 
+}
+
+const displyHydrationInfo = () => {
+    let hydroCard = document.querySelector('.hydration-card')
+    console.log(hydroRepo.getUserAverageOunces(singleUser.id))
+    hydroCard.innerHTML = `<div>
+    Hydration Info
+    <br>
+    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)}
+    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id)} oz.
+    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id)}
+    </div>`
 }
 
 window.addEventListener('load', getFetch)

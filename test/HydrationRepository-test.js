@@ -62,6 +62,11 @@ describe("Hydration Repository", () => {
       userID: 1,
       date: "2019/06/21",
       numOunces: 87,
+    },
+    {
+      userID: 1,
+      date: "2019/06/22",
+      numOunces: 65,
     }
    ];
  
@@ -84,14 +89,24 @@ describe("Hydration Repository", () => {
    const hydrationUser1 = hydrationData1.filter(object => object.userID === 1);
    const hydrationUser2 = hydrationData1.filter(object => object.userID === 2);
    expect(hydrationRepository1.getUserHydrationById(1)).to.deep.equal(hydrationUser1);
-   expect(hydrationRepository1.getUserHydrationById(1).length).to.equal(2);
+   expect(hydrationRepository1.getUserHydrationById(1).length).to.equal(8);
    expect(hydrationRepository1.getUserHydrationById(2)).to.deep.equal(hydrationUser2);
    expect(hydrationRepository1.getUserHydrationById(2).length).to.equal(2);
  });
  it('should have an average ounces consumed for a user', () => {
-   expect(hydrationRepository1.getUserAverageOunces(1)).to.equal(60)
+   expect(hydrationRepository1.getUserAverageOunces(1)).to.equal(72)
  })
  it('should have a user ounces consumed by date', () => {
-   expect(hydrationRepository1.ouncesConsumedByDate(1)).to.equal(85)
+   expect(hydrationRepository1.ouncesConsumedByDate(1)).to.equal(65)
+ })
+
+ it('Should have a weekly average of ounces for a user', () => {
+  expect(hydrationRepository1.getWeeklyHydration(1)).to.deep.equal([" 85 oz.",
+   " 87 oz.",
+   " 87 oz.",
+   " 87 oz.",
+   " 87 oz.",
+   " 87 oz.",
+   " 65 oz."])
  })
 });
