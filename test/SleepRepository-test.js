@@ -92,4 +92,21 @@ describe("Sleep Repository", () => {
  it('should have a property to hold all the sleep data', () => {
     expect(sleepRepository1.sleepData).to.deep.equal(sleepData1)
  })
+ it('should get the sleep data by id', () => {
+    const sleepUser1 = sleepData1.filter(object => object.userID === 1);
+    const sleepUser2 = sleepData1.filter(object => object.userID === 2);
+    expect(sleepRepository1.getSleepById(1)).to.deep.equal(sleepUser1);
+    expect(sleepRepository1.getSleepById(1).length).to.equal(8);
+    expect(sleepRepository1.getSleepById(2)).to.deep.equal(sleepUser2);
+    expect(sleepRepository1.getSleepById(2).length).to.equal(2);
+ })
+ it('should have an average hours slept for user', () => {
+    expect(sleepRepository1.getAverageHoursSlept(1)).to.equal('7.48')
+ })
+ it('should have an average quality sleep for user', () => {
+    expect(sleepRepository1.getQualityOfSleep(1)).to.equal('4.43')
+ })
+ it('should have hours slept by date', () => {
+    expect(sleepRepository1.sleepHoursByDate(1)).to.equal(7.1)
+ })
 });

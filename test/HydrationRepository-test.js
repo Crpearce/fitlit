@@ -94,7 +94,7 @@ describe("Hydration Repository", () => {
    expect(hydrationRepository1.getUserHydrationById(2).length).to.equal(2);
  });
  it('should have an average ounces consumed for a user', () => {
-   expect(hydrationRepository1.getUserAverageOunces(1)).to.equal(72)
+   expect(hydrationRepository1.getUserAverageOunces(1)).to.equal(77)
  })
  it('should have a user ounces consumed by date', () => {
    expect(hydrationRepository1.ouncesConsumedByDate(1)).to.equal(65)
