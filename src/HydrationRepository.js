@@ -10,9 +10,9 @@ class HydrationRepository {
         let userHydration = this.getUserHydrationById(id)
         let hydrationAvg = userHydration.reduce((avgOunces, hydrationObj) => {
             avgOunces += hydrationObj.numOunces / userHydration.length;
-            return Math.trunc(avgOunces);
+            return avgOunces;
         }, 0);
-            return hydrationAvg
+            return Math.trunc(hydrationAvg)
      }
    
      ouncesConsumedByDate = (id) => {
