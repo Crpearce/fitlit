@@ -9,9 +9,6 @@ import HydrationRepository from './HydrationRepository';
 import SleepRepository from './SleepRepository';
 //import dayjs from 'dayjs'
 
-
-// QUERYSELECTORS
-
 // GLOBAL VARIABLES
 
 let users;
