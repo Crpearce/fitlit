@@ -78,7 +78,19 @@ describe("Sleep Repository", () => {
       date: "2019/06/22",
       hoursSlept: 7.1,
       sleepQuality: 3.2
-    }
+    },
+    {
+      userID: 1,
+      date: "2019/06/23",
+      hoursSlept: 7.1,
+      sleepQuality: 2.4
+    },
+    {
+      userID: 1,
+      date: "2019/06/24",
+      hoursSlept: 7.1,
+      sleepQuality: 2.4
+    },
    ];
  
    sleepRepository1 = new SleepRepository(sleepData1);
@@ -96,17 +108,27 @@ describe("Sleep Repository", () => {
     const sleepUser1 = sleepData1.filter(object => object.userID === 1);
     const sleepUser2 = sleepData1.filter(object => object.userID === 2);
     expect(sleepRepository1.getSleepById(1)).to.deep.equal(sleepUser1);
-    expect(sleepRepository1.getSleepById(1).length).to.equal(8);
+    expect(sleepRepository1.getSleepById(1).length).to.equal(10);
     expect(sleepRepository1.getSleepById(2)).to.deep.equal(sleepUser2);
     expect(sleepRepository1.getSleepById(2).length).to.equal(2);
  })
  it('should have an average hours slept for user', () => {
-    expect(sleepRepository1.getAverageHoursSlept(1)).to.equal('7.48')
+    expect(sleepRepository1.getAverageHoursSlept(1)).to.equal('7.40')
  })
  it('should have an average quality sleep for user', () => {
-    expect(sleepRepository1.getQualityOfSleep(1)).to.equal('4.43')
+    expect(sleepRepository1.getQualityOfSleep(1)).to.equal('4.02')
  })
  it('should have hours slept by date', () => {
     expect(sleepRepository1.sleepHoursByDate(1)).to.equal(7.1)
+ })
+ it('Should have sleep quality by date', () => {
+  expect(sleepRepository1.sleepQualityByDate(1)).to.equal(2.4)
+ })
+
+ it('Should have the hours slept per week', () => {
+  expect(sleepRepository1.getWeeklyHoursSlept(1, '2019/06/23')).to.equal('7.24')
+ })
+ it('Should have the quality of sleep per week', () => {
+  expect(sleepRepository1.getWeeklyQualitySleep(1, '2019/06/23')).to.equal('4.66')
  })
 });
