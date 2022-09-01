@@ -131,4 +131,7 @@ describe("Sleep Repository", () => {
  it('Should have the quality of sleep per week', () => {
   expect(sleepRepository1.getWeeklyQualitySleep(1, '2019/06/23')).to.equal('4.66')
  })
+ it('Should be able to get the average sleep quality for all users', () => {
+  expect(sleepRepository1.allUsersAverageSleepQuality()).to.equal('3.70')
+ })
 });

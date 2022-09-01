@@ -6,6 +6,7 @@ import UserRepository from './UserRepository';
 import User from './User';
 import { fetchAll } from './apiCalls';
 import HydrationRepository from './HydrationRepository';
+import SleepRepository from './SleepRepository';
 //import dayjs from 'dayjs'
 
 
@@ -16,6 +17,7 @@ import HydrationRepository from './HydrationRepository';
 let users;
 let userRepo;
 let hydroRepo;
+let sleepRepo;
 let sleep;
 let hydration;
 let singleUser;
@@ -29,9 +31,12 @@ const getFetch = () => {
         userRepo = new UserRepository(users)
         singleUser = new User(users[getRandomUser()])
         hydroRepo = new HydrationRepository(hydration)
+        sleepRepo = new SleepRepository(sleep)
         welcomeUser()
         displayUserInfo()
-        displyHydrationInfo()
+        displayHydrationInfo()
+        displaySleepInfo()
+        findDate()
         // userRepo.findUserData(singleUser.id)
     })
 }
@@ -60,13 +65,12 @@ const displayUserInfo = () => {
     <br>Email: ${singleUser.email}
     <br>Stride Length: ${singleUser.strideLength}
     <br>Step Goal: ${singleUser.dailyStepGoal}
-    ${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
+    <br>${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
     </div>` 
 }
 
-const displyHydrationInfo = () => {
+const displayHydrationInfo = () => {
     let hydroCard = document.querySelector('.hydration-card')
-    console.log(hydroRepo.getUserAverageOunces(singleUser.id))
     hydroCard.innerHTML = `<div>
     Hydration Info
     <br>
@@ -74,6 +78,29 @@ const displyHydrationInfo = () => {
     <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id)} oz.
     <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id)}
     </div>`
+}
+
+const findDate = () => {
+    let id = singleUser.id
+    let allSleepData = sleepRepo.sleepData.filter(user => user.userID === id)
+    const getDates = allSleepData.map(user => user.date).pop()
+    return getDates
+}
+
+const displaySleepInfo = () => {
+    let sleepCard = document.querySelector('.sleep-card')
+    sleepCard.innerHTML = `<div>
+    Sleep Info
+    <br>
+    <br>Average Hours Slept: ${sleepRepo.getAverageHoursSlept(singleUser.id)}
+    <br>Average Quality of Sleep: ${sleepRepo.getQualityOfSleep(singleUser.id)}
+    <br>Daily Average Hours Slept: ${sleepRepo.sleepHoursByDate(singleUser.id)}
+    <br>Daily Average Quality of Sleep: ${sleepRepo.sleepQualityByDate(singleUser.id)}
+    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklyHoursSlept(singleUser.id, findDate())}
+    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklyQualitySleep(singleUser.id, findDate())}
+    <br>Group Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
+    </div>
+    `
 }
 
 window.addEventListener('load', getFetch)

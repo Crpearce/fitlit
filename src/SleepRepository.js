@@ -60,5 +60,13 @@ class SleepRepository{
         }, 0)
         return sleptAvg.toFixed(2)
        }
+
+       allUsersAverageSleepQuality = () => {
+        const usersSleep = this.sleepData.reduce((avgSleepQuality, user) => {
+            avgSleepQuality += user.sleepQuality / this.sleepData.length;
+            return avgSleepQuality;
+            }, 0);
+            return usersSleep.toFixed(2)
+       }
 }
 export default SleepRepository;
