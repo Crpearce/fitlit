@@ -33,7 +33,7 @@ const getFetch = () => {
         displayUserInfo()
         displayHydrationInfo()
         displaySleepInfo()
-        findDate()
+        // findDate()
         // userRepo.findUserData(singleUser.id)
     })
 }
@@ -83,15 +83,15 @@ const findDate = () => {
     const getDates = allSleepData.map(user => user.date).pop()
     return getDates
 }
-
+{/* <br>Average Quality of Sleep: ${sleepRepo.getQualityOfSleep(singleUser.id)} */}
 const displaySleepInfo = () => {
     let sleepCard = document.querySelector('.sleep-card')
     sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
-    <br>Average Hours Slept: ${sleepRepo.getAverageHoursSlept(singleUser.id)}
-    <br>Average Quality of Sleep: ${sleepRepo.getQualityOfSleep(singleUser.id)}
+    <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
     <br>Daily Average Hours Slept: ${sleepRepo.sleepHoursByDate(singleUser.id)}
+    <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
     <br>Daily Average Quality of Sleep: ${sleepRepo.sleepQualityByDate(singleUser.id)}
     <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklyHoursSlept(singleUser.id, findDate())}
     <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklyQualitySleep(singleUser.id, findDate())}
