@@ -9,6 +9,9 @@ import HydrationRepository from './HydrationRepository';
 import SleepRepository from './SleepRepository';
 //import dayjs from 'dayjs'
 
+// QUERYSELECTORS
+const dateInput = document.querySelector(".date-input");
+
 // GLOBAL VARIABLES
 
 let users;
@@ -38,12 +41,27 @@ const getFetch = () => {
     })
 }
 
+//  EventListeners
+sleepCalendarSection.addEventListener("click", handleButtons);
+
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
 };
 
+function handleButtons(event) {
+    switch (event.target.className) {
+      case "show-sleep-btn":
+        updateSleepInfo(event);
+        break;
+      case "reset-sleep-btn":
+        displaySleepInfo(event);
+        break;
+      default:
+        break;
+    }
+  }
+
 const welcomeUser = () => {
-    console.log(singleUser.returnUserName())
     let greeting = document.querySelector('.welcome-customer')
     greeting.innerText = `${singleUser.returnUserName()}`
     let steps = document.querySelector('.daily-steps')
@@ -53,7 +71,6 @@ const welcomeUser = () => {
 
 const displayUserInfo = () => {
     let userCard = document.querySelector('.user-card')
-    console.log(userRepo.friendNames)
     userCard.innerHTML = `<div>
     User Info
     <br>
@@ -85,6 +102,7 @@ const findDate = () => {
 }
 {/* <br>Average Quality of Sleep: ${sleepRepo.getQualityOfSleep(singleUser.id)} */}
 const displaySleepInfo = () => {
+    dateInput.value ='';
     let sleepCard = document.querySelector('.sleep-card')
     sleepCard.innerHTML = `<div>
     Sleep Info
@@ -95,6 +113,23 @@ const displaySleepInfo = () => {
     <br>Daily Average Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
     <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'hoursSlept')}
     <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality')}
+    <br>Group Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
+    </div>
+    `
+}
+
+const updateSleepInfo = () => {
+    let updateDate = dateInput.value.split('-').join('/');
+    let sleepCard = document.querySelector('.sleep-card')
+    sleepCard.innerHTML = `<div>
+    Sleep Info
+    <br>
+    <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
+    <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
+    <br>Daily Average Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
+    <br>Daily Average Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
+    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'hoursSlept')}
+    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'sleepQuality')}
     <br>Group Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
     </div>
     `

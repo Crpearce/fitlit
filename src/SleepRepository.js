@@ -7,7 +7,6 @@ class SleepRepository{
 
     getSleepAverage = (id, hoursOrQuality) => {
         let userSleep = this.getSleepById(id)
-        console.log(userSleep)
         let sleepAvg = userSleep.reduce((avgHours, sleepObj) => {
             avgHours += sleepObj[hoursOrQuality] / userSleep.length;
             return avgHours;

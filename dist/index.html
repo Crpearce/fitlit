@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Fitlit</title>
   </head>
   <body>
     <h1>Activity Tracker</h1>
     <nav class="navigation">
       <section class="welcome">
-        <h3 class='welcome-customer'>Welcome</h3>
+        <h1 class='welcome-customer'>Welcome</h1>
       </section>
       <section class="daily-steps">Daily Steps: </section>
     </nav>
@@ -16,6 +18,12 @@
       <div class="user-card">User</div>
       <div class="hydration-card">Hydration</div>
       <div class="sleep-card">Sleep</div>
+        <section class="sleep-calendar-section" id="sleepCalendarSection">
+          <label for="sleep-calendar">Select Date for sleep Data: </label>
+          <input aria-label="Enter a date for individual sleep data" class="date-input" id="dateInput" min="%_today-1%" max="2020-01-15" type="date" required>
+          <button aria-label="show sleep data for date button"class="show-sleep-btn" id="showSleepButton">Check for sleep data</button>
+          <button aria-label="reset"class="reset-sleep-btn" id="resetSleepButton">Reset sleep data</button>
+        </section>
       <div class="activity-card">Activity</div>
     </section>
 
