@@ -51,7 +51,10 @@ const getRandomUser = () => {
 function handleButtons(event) {
     switch (event.target.className) {
       case "show-sleep-btn":
-        updateDate(event);
+        updateSleepInfo(event);
+        break;
+      case "reset-sleep-btn":
+        displaySleepInfo(event);
         break;
       default:
         break;
@@ -99,6 +102,7 @@ const findDate = () => {
 }
 {/* <br>Average Quality of Sleep: ${sleepRepo.getQualityOfSleep(singleUser.id)} */}
 const displaySleepInfo = () => {
+    dateInput.value ='';
     let sleepCard = document.querySelector('.sleep-card')
     sleepCard.innerHTML = `<div>
     Sleep Info
@@ -113,6 +117,22 @@ const displaySleepInfo = () => {
     </div>
     `
 }
-const updateDate = () => console.log(dateInput.value)
+
+const updateSleepInfo = () => {
+    let updateDate = dateInput.value.split('-').join('/');
+    let sleepCard = document.querySelector('.sleep-card')
+    sleepCard.innerHTML = `<div>
+    Sleep Info
+    <br>
+    <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
+    <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
+    <br>Daily Average Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
+    <br>Daily Average Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
+    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'hoursSlept')}
+    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'sleepQuality')}
+    <br>Group Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
+    </div>
+    `
+}
 
 window.addEventListener('load', getFetch)
