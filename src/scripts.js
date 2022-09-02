@@ -90,11 +90,11 @@ const displaySleepInfo = () => {
     Sleep Info
     <br>
     <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
-    <br>Daily Average Hours Slept: ${sleepRepo.sleepHoursByDate(singleUser.id)}
     <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Daily Average Quality of Sleep: ${sleepRepo.sleepQualityByDate(singleUser.id)}
-    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklyHoursSlept(singleUser.id, findDate())}
-    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklyQualitySleep(singleUser.id, findDate())}
+    <br>Daily Average Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
+    <br>Daily Average Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
+    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'hoursSlept')}
+    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality')}
     <br>Group Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
     </div>
     `

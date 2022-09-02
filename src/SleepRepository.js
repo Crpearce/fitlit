@@ -7,46 +7,28 @@ class SleepRepository{
 
     getSleepAverage = (id, hoursOrQuality) => {
         let userSleep = this.getSleepById(id)
+        console.log(userSleep)
         let sleepAvg = userSleep.reduce((avgHours, sleepObj) => {
             avgHours += sleepObj[hoursOrQuality] / userSleep.length;
             return avgHours;
         }, 0);
             return sleepAvg.toFixed(2)
-     }
+    }
 
-     sleepHoursByDate = (id) => {
+     sleepByDate = (id, hoursOrQuality) => {
         let userSleep = this.getSleepById(id)
         let findDate = userSleep.map(sleepObj => sleepObj.date).pop()
         let todaySleep = userSleep.find(sleepObj => sleepObj.date === findDate)
-        return todaySleep.hoursSlept
+        return todaySleep[hoursOrQuality]
      }
 
-     sleepQualityByDate = (id) => {
-        let userSleep = this.getSleepById(id)
-        let findDate = userSleep.map(sleepObj => sleepObj.date).pop()
-        let todaySleep = userSleep.find(sleepObj => sleepObj.date === findDate)
-        return todaySleep.sleepQuality
-     }
-
-     getWeeklyHoursSlept = (id, date) => {
+     getWeeklySleep = (id, date, hoursOrQuality) => {
         const userSleep = this.getSleepById(id)
         const getDates = userSleep.map(object => object.date)
         const dateIndex = getDates.indexOf(date)
         const weeklyRange = userSleep.slice(dateIndex -6, dateIndex +1)
         const sleptAvg = weeklyRange.reduce((average, hours) => {
-            average += hours.hoursSlept / 7
-            return average
-        }, 0)
-        return sleptAvg.toFixed(2)
-       }
-
-       getWeeklyQualitySleep = (id, date) => {
-        const userSleep = this.getSleepById(id)
-        const getDates = userSleep.map(object => object.date)
-        const dateIndex = getDates.indexOf(date)
-        const weeklyRange = userSleep.slice(dateIndex -6, dateIndex +1)
-        const sleptAvg = weeklyRange.reduce((average, hours) => {
-            average += hours.sleepQuality / 7
+            average += hours[hoursOrQuality] / 7
             return average
         }, 0)
         return sleptAvg.toFixed(2)

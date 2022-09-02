@@ -113,23 +113,23 @@ describe("Sleep Repository", () => {
     expect(sleepRepository1.getSleepById(2).length).to.equal(2);
  })
  it('should have an average hours slept for user', () => {
-    expect(sleepRepository1.getAverageHoursSlept(1)).to.equal('7.40')
+    expect(sleepRepository1.getSleepAverage(1, 'hoursSlept')).to.equal('7.40')
  })
  it('should have an average quality sleep for user', () => {
-    expect(sleepRepository1.getQualityOfSleep(1)).to.equal('4.02')
+    expect(sleepRepository1.getSleepAverage(1, 'sleepQuality')).to.equal('4.02')
  })
  it('should have hours slept by date', () => {
-    expect(sleepRepository1.sleepHoursByDate(1)).to.equal(7.1)
+    expect(sleepRepository1.sleepByDate(1, 'hoursSlept')).to.equal(7.1)
  })
  it('Should have sleep quality by date', () => {
-  expect(sleepRepository1.sleepQualityByDate(1)).to.equal(2.4)
+  expect(sleepRepository1.sleepByDate(1, 'sleepQuality')).to.equal(2.4)
  })
 
  it('Should have the hours slept per week', () => {
-  expect(sleepRepository1.getWeeklyHoursSlept(1, '2019/06/23')).to.equal('7.24')
+  expect(sleepRepository1.getWeeklySleep(1, '2019/06/23', 'hoursSlept')).to.equal('7.24')
  })
  it('Should have the quality of sleep per week', () => {
-  expect(sleepRepository1.getWeeklyQualitySleep(1, '2019/06/23')).to.equal('4.66')
+  expect(sleepRepository1.getWeeklySleep(1, '2019/06/23', 'sleepQuality')).to.equal('4.66')
  })
  it('Should be able to get the average sleep quality for all users', () => {
   expect(sleepRepository1.allUsersAverageSleepQuality()).to.equal('3.70')
