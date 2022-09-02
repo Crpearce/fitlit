@@ -1,6 +1,7 @@
-# FitLit Starter Kit
+# Fitlit
 
-The details of this project are outline in [this project spec](http://frontend.turing.io/projects/fitlit.html).
+## Abstract
+Ever wanted to track and maintain sleep and hydration data? Use this repo to help you do just that! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a fitness tracking application which utilized a variety of technologies, including javaScript, HTML, CSS, Mocha, and Chai. The project goals for Part I were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a dashboard that is easy to use and displays information in a clear way,, write modular, reusable code that follows SRP, implement a robust testing suite using TDD, and make network requests to retrieve data. 
 
 ## Setup
 
@@ -15,64 +16,36 @@ The details of this project are outline in [this project spec](http://frontend.t
 
 There is no boilerplate for testing in this starter-kit repo. You will need to set this up yourself. However, if you ran `npm install`, then the tooling you need to start testing is already installed (`mocha` and `chai`).
 
+## Project Specs
+The project specs and rubric for Fitlit Part I can be found [here](https://frontend.turing.edu/projects/Fitlit-part-one.html)
 
-## Data Model
+## Technologies Used
+ <p>
+   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/>
+   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/>
+   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Mocha-8D6748?style=for-the-badge&logo=Mocha&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Chai-A30701?style=for-the-badge&logo=chai&logoColor=white"/>
+   <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"/>
+ </p>
+ 
+ ## Challenges
+- TDD and Class Architecture
+- Event Delegation
+- Nested Data
 
-**Users**
+## Wins
+- API calls
+- Dynamic functions created to stick to SRP and get rid of unecessary code
+- Accessibility
+- Collaboration
+- API calls
 
-```
-[
-  {
-    "id": [number],
-    "name": [string],
-    "address": [string],
-    "email": [string],
-    "strideLength": [number - feet],
-    "dailyStepGoal": [number - steps],
-    "friends": [array - one-way connection to other user(s)]
-  },
-  ...more user data
-]
-```
+## Future Extensions
+- We plan to spend time learning and implementing Chart.js into this project to enhance the UI
 
-**Activity**
+## Contributors
+- Beth Wilson [LinkedIn](https://www.linkedin.com/in/beth-wilson-92594284/) [GitHub](https://github.com/BethWProjects)
+- Colby Pearce [LinkedIn](https://www.linkedin.com/in/colby-pearce1/) [GitHub](https://github.com/Crpearce)
+- Danielle Sweeny [LinkedIn](https://www.linkedin.com/in/danielle-sweeny-75b50b84/) [GitHub](https://github.com/dsweeny1)
 
-```
-[
-  {
-    "userID": [number],
-    "date": [string YYYY/MM/DD],
-    "numSteps": [number - steps],
-    "minutesActive": [number - minutes],
-    "flightsOfStairs": [number - flights]
-  },
-  ...more activity data
-]
-```
-
-**Hydration**
-
-```
-[
-  {
-    "userID": [number],
-    "date": [string YYYY/MM/DD],
-    "numOunces": [number - ounces]
-  },
-  ...more hydration data
-]
-```
-
-**Sleep**
-
-```
-[
-  {
-    "userID": [number],
-    "date": [string YYYY/MM/DD],
-    "hoursSlept": [number - hours],
-    "sleepQuality": [number - unitless]
-  },
-  ...more sleep data
-]
-```
