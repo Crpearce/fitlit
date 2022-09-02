@@ -82,7 +82,7 @@ const displayHydrationInfo = () => {
     hydroCard.innerHTML = `<div>
     Hydration Info
     <br>
-    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)}
+    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
     <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id)} oz.
     <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id)}
     </div>`;
@@ -96,7 +96,8 @@ const findDate = () => {
 }
 
 const displaySleepInfo = () => {
-    dateInput.value ='';
+
+    dateInput.value = '';
     let sleepCard = document.querySelector('.sleep-card');
     sleepCard.innerHTML = `<div>
     Sleep Info
@@ -114,28 +115,29 @@ const displaySleepInfo = () => {
 const updateSleepInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
     let sleepCard = document.querySelector('.sleep-card');
-    dateInput.value === "" ? sleepCard.innerHTML = `<div>
+    if (dateInput.value === "") { sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
     <br>Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
-    <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality', updateDate)}
+    <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
     <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
     <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Weekly Average of Hours Slept: Please select a valid Date
+    <br>Weekly Average of Hours Slept: Please select a Valid Date
     <br>Weekly Average of Sleep Quality: Please select a Valid Date
     <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
-    </div>` :
+    </div>`
+    } else {   
     sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
-    <br>Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
+    <br>Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept', updateDate)}
     <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality', updateDate)}
     <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
     <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
     <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'hoursSlept')}
     <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'sleepQuality')}
     <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
-    </div>`;
+    </div>`};
 }
 
 const getRandomUser = () => {
