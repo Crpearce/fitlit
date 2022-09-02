@@ -9,6 +9,9 @@ import HydrationRepository from './HydrationRepository';
 import SleepRepository from './SleepRepository';
 //import dayjs from 'dayjs'
 
+// QUERYSELECTORS
+const dateInput = document.querySelector(".date-input");
+
 // GLOBAL VARIABLES
 
 let users;
@@ -18,6 +21,7 @@ let sleepRepo;
 let sleep;
 let hydration;
 let singleUser;
+
 const getFetch = () => {
     fetchAll()
     .then(data => {
@@ -38,9 +42,22 @@ const getFetch = () => {
     })
 }
 
+//  EventListeners
+sleepCalendarSection.addEventListener("click", handleButtons);
+
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
 };
+
+function handleButtons(event) {
+    switch (event.target.className) {
+      case "show-sleep-btn":
+        updateDate(event);
+        break;
+      default:
+        break;
+    }
+  }
 
 const welcomeUser = () => {
     console.log(singleUser.returnUserName())
@@ -83,7 +100,7 @@ const findDate = () => {
     const getDates = allSleepData.map(user => user.date).pop()
     return getDates
 }
-{/* <br>Average Quality of Sleep: ${sleepRepo.getQualityOfSleep(singleUser.id)} */}
+
 const displaySleepInfo = () => {
     let sleepCard = document.querySelector('.sleep-card')
     sleepCard.innerHTML = `<div>
@@ -99,5 +116,7 @@ const displaySleepInfo = () => {
     </div>
     `
 }
+
+const updateDate = () => console.log(dateInput.value)
 
 window.addEventListener('load', getFetch)
