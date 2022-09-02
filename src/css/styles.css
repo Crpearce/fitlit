@@ -3,11 +3,9 @@
 }
 
 body, html {
-  /* display: flex; */
   background-image: linear-gradient(to top, #ff9a9e 0%, #701ba5 99%, #fecfef 100%);
   background-repeat: no-repeat;
   height: 100%;
-  /* border: 2px solid red; */
 }
 
 h3 {
@@ -21,14 +19,14 @@ h3 {
 }
 
 .user-info-cards {
-  display: flex;
+  display: grid;
   justify-content: center;
   margin-top: 50px;
   word-wrap: normal;
 }
 
 .user-card, .hydration-card, .sleep-card, .activity-card {
-  border: 2px solid red;
+  border: 2px solid rgb(180, 28, 117);
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
 }
