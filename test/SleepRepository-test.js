@@ -90,7 +90,7 @@ describe("Sleep Repository", () => {
       date: "2019/06/24",
       hoursSlept: 7.1,
       sleepQuality: 2.4
-    },
+    }
    ];
  
    sleepRepository1 = new SleepRepository(sleepData1);
@@ -119,10 +119,10 @@ describe("Sleep Repository", () => {
     expect(sleepRepository1.getSleepAverage(1, 'sleepQuality')).to.equal('4.02')
  })
  it('should have hours slept by date', () => {
-    expect(sleepRepository1.sleepByDate(1, 'hoursSlept')).to.equal(7.1)
+    expect(sleepRepository1.sleepByDate(1, 'hoursSlept', '2019/06/24')).to.equal(7.1)
  })
  it('Should have sleep quality by date', () => {
-  expect(sleepRepository1.sleepByDate(1, 'sleepQuality')).to.equal(2.4)
+  expect(sleepRepository1.sleepByDate(1, 'sleepQuality', '2019/06/24')).to.equal(2.4)
  })
 
  it('Should have the hours slept per week', () => {
