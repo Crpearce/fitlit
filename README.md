@@ -1,11 +1,13 @@
 # Fitlit
 
 ## Abstract
-Ever wanted to track and maintain your own sleep and hydration data? Use this repo to help you do just that! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a fitness tracking application which utilized a variety of technologies, including javaScript, HTML, CSS, Mocha, and Chai. The project goals for Part I were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a dashboard that is easy to use and displays information in a clear way,, write modular, reusable code that follows SRP, implement a robust testing suite using TDD, and make network requests to retrieve data. 
+Ever wanted to track and maintain your own sleep and hydration data? Use this repo to help you do just that! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a fitness tracking application which utilized a variety of technologies, including javaScript, HTML, CSS, Mocha, and Chai. The project goals for Part I were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a dashboard that is easy to use and displays information in a clear way, write modular, reusable code that follows SRP, implement a robust testing suite using TDD, and make network requests to retrieve data. 
 
 ![Fitlit preview](https://user-images.githubusercontent.com/101376200/188210979-01a7e891-eb82-4d42-9057-2e1d489e9b0b.gif)
 
 ## Setup
+
+repo link(https://github.com/turingschool-examples/fitlit-starter-kit)
 
 1. Within your group, decide on one person to have the project repository (repo) on their GitHub account. Then, that person should fork this repo - on the top right corner of this page, click the **Fork** button.
 1. Both memebers of the group should clone down the _forked_ repo. Since you don't want to name your project "activity-tracker-starter", you can use an optional argument when you run git clone (you replace the [...] with the terminal command arguments): `git clone [remote-address] [what you want to name the repo]`
