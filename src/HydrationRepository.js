@@ -15,25 +15,34 @@ class HydrationRepository {
             return Math.trunc(hydrationAvg)
      }
    
-     ouncesConsumedByDate = (id) => {
-        let userHydration = this.getUserHydrationById(id)
-        let findDate = userHydration.map(hydrationObj => hydrationObj.date).pop()
-        let todayOunces = userHydration.find(hydrationObj => hydrationObj.date === findDate)
-        return todayOunces.numOunces
+     ouncesConsumedByDate = (id, selectedDate) => {
+        let userHydration = this.getUserHydrationById(id);
+        if(!selectedDate) {
+          let findDate = userHydration.map(hydrationObj => hydrationObj.date).pop()
+          let todayOunces = userHydration.find(hydrationObj => hydrationObj.date === findDate)
+          return todayOunces.numOunces
+        } else {
+          let todayOunces = userHydration.find(hydrationObj => hydrationObj.date === selectedDate)
+          return todayOunces.numOunces
+        }
      }
-    
-     getWeeklyHydration = (id) => {
+
+     getWeeklyHydration = (id, date) => {
       let userHydration = this.getUserHydrationById(id)
       let findWeek = userHydration.map(hydrationObj => hydrationObj.date)
-      let dateRange = findWeek.splice(-7)
-      let weeklyRange = userHydration.reduce((averageArr, user) => {
-        dateRange.forEach(day => {
-          if(user.date === day){
-            averageArr.push(` ${user.numOunces} oz.`)
+      const dateIndex = findWeek.indexOf(date)
+      let dateRange = userHydration.slice(dateIndex - 6, dateIndex + 1)
+      console.log('dateRange', dateRange)
+      let weeklyRange = dateRange.reduce((averageArr, date) => {
+        userHydration.forEach(userDate => {
+          if(date.date === userDate.date) {
+            averageArr.push(` ${date.numOunces} oz.`)
           }
         })
+        console.log('average', averageArr)
         return averageArr
       }, [])
+      console.log(weeklyRange)
       return weeklyRange
      }
  }
