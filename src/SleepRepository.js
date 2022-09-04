@@ -8,11 +8,11 @@ class SleepRepository {
 
   getSleepAverage = (id, hoursOrQuality) => {
     let userSleep = this.getSleepById(id);
-    let sleepAvg = userSleep.reduce((avgHours, sleepObj) => {
-      avgHours += sleepObj[hoursOrQuality] / userSleep.length;
-      return avgHours;
-    }, 0);
-    return sleepAvg.toFixed(2);
+        let sleepAvg = userSleep.reduce((avgHours, sleepObj) => {
+          avgHours += sleepObj[hoursOrQuality] / userSleep.length;
+          return avgHours;
+        }, 0);
+        return sleepAvg.toFixed(2);
   };
 
   sleepByDate = (id, hoursOrQuality, selectedDate) => {

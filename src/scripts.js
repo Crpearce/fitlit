@@ -46,9 +46,11 @@ function handleButtons(event) {
     switch (event.target.className) {
       case "show-sleep-btn":
         updateSleepInfo(event);
+        updateHydrationInfo(event);
         break;
       case "reset-sleep-btn":
         displaySleepInfo(event);
+        displayHydrationInfo(event);
         break;
       default:
         break;
@@ -76,18 +78,6 @@ const displayUserInfo = () => {
     <br>${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
     </div>`;
 }
-
-const displayHydrationInfo = () => {
-    let hydroCard = document.querySelector('.hydration-card')
-    hydroCard.innerHTML = `<div>
-    Hydration Info
-    <br>
-    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
-    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id)} oz.
-    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id)}
-    </div>`;
-}
-
 const findDate = () => {
     let id = singleUser.id;
     let allSleepData = sleepRepo.sleepData.filter(user => user.userID === id);
@@ -95,8 +85,32 @@ const findDate = () => {
     return getDates;
 }
 
-const displaySleepInfo = () => {
+const displayHydrationInfo = () => {
+    let hydroCard = document.querySelector('.hydration-card')
+    hydroCard.innerHTML = `<div>
+    Hydration Info
+    <br>
+    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
+    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
+    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())}
+    </div>`;
+}
 
+
+const updateHydrationInfo = () => {
+    let updateDate = dateInput.value.split('-').join('/');
+    let hydroCard = document.querySelector('.hydration-card')
+    hydroCard.innerHTML = `<div>
+    Hydration Info
+    <br>
+    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
+    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
+    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
+    </div>`;
+}
+
+
+const displaySleepInfo = () => {
     dateInput.value = '';
     let sleepCard = document.querySelector('.sleep-card');
     sleepCard.innerHTML = `<div>

@@ -97,11 +97,11 @@ describe("Hydration Repository", () => {
    expect(hydrationRepository1.getUserAverageOunces(1)).to.equal(77)
  })
  it('should have a user ounces consumed by date', () => {
-   expect(hydrationRepository1.ouncesConsumedByDate(1)).to.equal(65)
+   expect(hydrationRepository1.ouncesConsumedByDate(1, '2019/06/22')).to.equal(65)
  })
 
  it('Should have a weekly average of ounces for a user', () => {
-  expect(hydrationRepository1.getWeeklyHydration(1)).to.deep.equal([" 85 oz.",
+  expect(hydrationRepository1.getWeeklyHydration(1, '2019/06/22')).to.deep.equal([" 85 oz.",
    " 87 oz.",
    " 87 oz.",
    " 87 oz.",
