@@ -32,17 +32,14 @@ class HydrationRepository {
       let findWeek = userHydration.map(hydrationObj => hydrationObj.date)
       const dateIndex = findWeek.indexOf(date)
       let dateRange = userHydration.slice(dateIndex - 6, dateIndex + 1)
-      console.log('dateRange', dateRange)
       let weeklyRange = dateRange.reduce((averageArr, date) => {
         userHydration.forEach(userDate => {
           if(date.date === userDate.date) {
             averageArr.push(` ${date.numOunces} oz.`)
           }
         })
-        console.log('average', averageArr)
         return averageArr
       }, [])
-      console.log(weeklyRange)
       return weeklyRange
      }
  }

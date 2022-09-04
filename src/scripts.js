@@ -21,7 +21,6 @@ let singleUser;
 const getFetch = () => {
     fetchAll()
     .then(data => {
-        console.log('data', data);
         users = data[0].userData;
         sleep = data[1].sleepData;
         hydration = data[2].hydrationData;
@@ -34,13 +33,11 @@ const getFetch = () => {
         displayHydrationInfo();
         displaySleepInfo();
     })
-}
+};
 
 //  EventListeners
 window.addEventListener('load', getFetch);
 sleepCalendarSection.addEventListener("click", handleButtons);
-
-
 
 function handleButtons(event) {
     switch (event.target.className) {
@@ -55,7 +52,7 @@ function handleButtons(event) {
       default:
         break;
     }
-  }
+  };
 
 const welcomeUser = () => {
     let greeting = document.querySelector('.welcome-customer');
@@ -63,7 +60,7 @@ const welcomeUser = () => {
     let steps = document.querySelector('.daily-steps');
     steps.innerText = `${singleUser.name.split(" ")[0]}'s Steps: ${singleUser.dailyStepGoal};
     Group Average: ${userRepo.allUsersAverageSteps()}`;
-}
+};
 
 const displayUserInfo = () => {
     let userCard = document.querySelector('.user-card');
@@ -77,13 +74,14 @@ const displayUserInfo = () => {
     <br>Step Goal: ${singleUser.dailyStepGoal}
     <br>${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
     </div>`;
-}
+};
+
 const findDate = () => {
     let id = singleUser.id;
     let allSleepData = sleepRepo.sleepData.filter(user => user.userID === id);
     const getDates = allSleepData.map(user => user.date).pop();
     return getDates;
-}
+};
 
 const displayHydrationInfo = () => {
     let hydroCard = document.querySelector('.hydration-card')
@@ -94,12 +92,18 @@ const displayHydrationInfo = () => {
     <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
     <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())}
     </div>`;
-}
-
+};
 
 const updateHydrationInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
     let hydroCard = document.querySelector('.hydration-card')
+    if (dateInput.value === "") { 
+    hydroCard.innerHTML = `<div>
+    Hydration Info
+    <br>
+    Please select a Valid Date
+    </div>`
+    } else {
     hydroCard.innerHTML = `<div>
     Hydration Info
     <br>
@@ -107,8 +111,8 @@ const updateHydrationInfo = () => {
     <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
     <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
     </div>`;
-}
-
+    }
+};
 
 const displaySleepInfo = () => {
     dateInput.value = '';
@@ -124,7 +128,7 @@ const displaySleepInfo = () => {
     <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality')}
     <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
     </div>`
-}
+};
 
 const updateSleepInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
@@ -132,13 +136,7 @@ const updateSleepInfo = () => {
     if (dateInput.value === "") { sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
-    <br>Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
-    <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
-    <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
-    <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Weekly Average of Hours Slept: Please select a Valid Date
-    <br>Weekly Average of Sleep Quality: Please select a Valid Date
-    <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
+    Please select a Valid Date
     </div>`
     } else {   
     sleepCard.innerHTML = `<div>
@@ -152,7 +150,7 @@ const updateSleepInfo = () => {
     <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'sleepQuality')}
     <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
     </div>`};
-}
+};
 
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
