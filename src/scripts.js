@@ -112,7 +112,7 @@ const displayHydrationInfo = () => {
             labels: ['Day1', 'Day2', 'Day1', 'Day1', 'Day1', 'Day1', 'Day1'],
             datasets: [{
                 label: 'Ounces Drank',
-                data: [hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())],
+                data: hydroRepo.getWeeklyHydration(singleUser.id, findDate()),
                 backgroundColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)'

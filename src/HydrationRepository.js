@@ -35,7 +35,7 @@ class HydrationRepository {
       let weeklyRange = dateRange.reduce((averageArr, date) => {
         userHydration.forEach(userDate => {
           if(date.date === userDate.date) {
-            averageArr.push(` ${date.numOunces} oz.`)
+            averageArr.push(date.numOunces)
           }
         })
         return averageArr
