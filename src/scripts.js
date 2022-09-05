@@ -6,6 +6,7 @@ import User from './User';
 import { fetchAll } from './apiCalls';
 import HydrationRepository from './HydrationRepository';
 import SleepRepository from './SleepRepository';
+import Chart from 'chart.js/auto'
 
 // QUERYSELECTORS
 const dateInput = document.querySelector(".date-input");
@@ -61,7 +62,7 @@ const welcomeUser = () => {
     let greeting = document.querySelector('.welcome-customer');
     greeting.innerText = `${singleUser.returnUserName()}`;
     let steps = document.querySelector('.daily-steps');
-    steps.innerText = `${singleUser.name.split(" ")[0]}'s Steps: ${singleUser.dailyStepGoal};
+    steps.innerText = `${singleUser.name.split(" ")[0]}'s Steps: ${singleUser.dailyStepGoal}
     Group Average: ${userRepo.allUsersAverageSteps()}`;
 }
 
@@ -78,6 +79,14 @@ const displayUserInfo = () => {
     <br>${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
     </div>`;
 }
+
+// QUERYSELECTORS
+// const hydroChart = document.getElementById('myHydroChart')
+const sleepChart = document.getElementById('mySleepChart')
+// const hydroChart = document.getElementById('myHChart')
+
+
+
 const findDate = () => {
     let id = singleUser.id;
     let allSleepData = sleepRepo.sleepData.filter(user => user.userID === id);
@@ -87,6 +96,8 @@ const findDate = () => {
 
 const displayHydrationInfo = () => {
     let hydroCard = document.querySelector('.hydration-card')
+    const hydroChart = document.getElementById('myHydroChart')
+    console.log(hydroRepo.hydrationData)
     hydroCard.innerHTML = `<div>
     Hydration Info
     <br>
@@ -94,6 +105,28 @@ const displayHydrationInfo = () => {
     <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
     <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())}
     </div>`;
+
+    const displayHydroChart = new Chart(hydroChart, {
+        type: 'bar',
+        data: {
+            labels: ['Day1', 'Day2', 'Day1', 'Day1', 'Day1', 'Day1', 'Day1'],
+            datasets: [{
+                label: 'Ounces Drank',
+                data: [hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+
+            },
+            maintainAspectRatio: false
+        }
+    })
 }
 
 

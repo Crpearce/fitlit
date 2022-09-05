@@ -8,6 +8,11 @@ body, html {
   height: 100%;
 }
 
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
 h3 {
   border: 2px solid red;
   padding: 10px;
@@ -23,7 +28,6 @@ h3 {
 .user-info-cards {
   display: grid;
   justify-content: center;
-  margin-top: 50px;
   word-wrap: normal;
 }
 
