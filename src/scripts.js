@@ -46,12 +46,14 @@ sleepCalendarSection.addEventListener("click", handleButtons);
 function handleButtons(event) {
     switch (event.target.className) {
       case "show-sleep-btn":
-        updateSleepInfo(event);
         updateHydrationInfo(event);
+        updateSleepInfo(event);
         break;
       case "reset-sleep-btn":
+        displayHydrationInfo(event); 
+        break;
+        case "reset-sleep-btn":
         displaySleepInfo(event);
-        displayHydrationInfo(event);
         break;
       default:
         break;
@@ -80,13 +82,6 @@ const displayUserInfo = () => {
     </div>`;
 }
 
-// QUERYSELECTORS
-// const hydroChart = document.getElementById('myHydroChart')
-const sleepChart = document.getElementById('mySleepChart')
-// const hydroChart = document.getElementById('myHChart')
-
-
-
 const findDate = () => {
     let id = singleUser.id;
     let allSleepData = sleepRepo.sleepData.filter(user => user.userID === id);
@@ -95,23 +90,23 @@ const findDate = () => {
 }
 
 const displayHydrationInfo = () => {
+    let updateDate = dateInput.value.split('-').join('/');
     let hydroCard = document.querySelector('.hydration-card')
     const hydroChart = document.getElementById('myHydroChart')
-    console.log(hydroRepo.hydrationData)
     hydroCard.innerHTML = `<div>
     Hydration Info
     <br>
     <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
     <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
-    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())}
+    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.
     </div>`;
-
+// ON LINE 99 can i throw in a forEach onto ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} so that each number is followed by a space and oz., maybe a split and join?
     const displayHydroChart = new Chart(hydroChart, {
         type: 'bar',
         data: {
-            labels: ['Day1', 'Day2', 'Day1', 'Day1', 'Day1', 'Day1', 'Day1'],
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
             datasets: [{
-                label: 'Ounces Drank',
+                label: 'Ounces Drank Weekly',
                 data: hydroRepo.getWeeklyHydration(singleUser.id, findDate()),
                 backgroundColor: [
                     'rgba(255, 99, 132, 1)',
@@ -122,13 +117,16 @@ const displayHydrationInfo = () => {
         },
         options: {
             scales: {
-
+                
             },
             maintainAspectRatio: false
-        }
+        },
     })
 }
-
+// function updateConfigByMutating(chart) {
+//     chart.options.plugins.title.text = 'new title';
+//     chart.update();
+// }
 
 const updateHydrationInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
@@ -140,12 +138,38 @@ const updateHydrationInfo = () => {
     <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
     <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
     </div>`;
+    // const displayHydroChart = new Chart(hydroChart, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+    //         datasets: [{
+    //             label: 'Ounces Drank Weekly',
+    //             data: hydroRepo.getWeeklyHydration(singleUser.id, updateDate),
+    //             backgroundColor: [
+    //                 'rgba(255, 99, 132, 1)',
+    //                 'rgba(54, 162, 235, 1)'
+    //             ],
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+                
+    //         },
+    //         maintainAspectRatio: false
+    //     },
+    // })
+    
+    // NEED TO GET CHART DATA TO UPDATE WITH CALENDAR EVENT
+    // putting a new chart in the updateHydration function does not create a new chart, nor does it update the chart data with the selection of a new date on the calendar
+    // maybe we make another chart that is hidden initially?, an updateHydroChart, and try and show that, hide the original, when the click event happens with the calendar?
 }
 
 
 const displaySleepInfo = () => {
     dateInput.value = '';
     let sleepCard = document.querySelector('.sleep-card');
+    const sleepChart = document.getElementById('mySleepChart')
     sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
@@ -153,10 +177,36 @@ const displaySleepInfo = () => {
     <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
     <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
     <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'hoursSlept')}
-    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality')}
+    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}
+    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}
     <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
     </div>`
+
+    const displaySleepChart = new Chart(sleepChart, {
+        type: 'bar',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+            datasets: [{
+                label: 'Sleep Quality',
+                data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality'),
+                backgroundColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Hours Slept',
+                data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'hoursSlept'),
+                backgroundColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+
+            },
+            maintainAspectRatio: false
+        }
+
+    })
 }
 
 const updateSleepInfo = () => {
@@ -181,8 +231,8 @@ const updateSleepInfo = () => {
     <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality', updateDate)}
     <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
     <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'hoursSlept')}
-    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'sleepQuality')}
+    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'hoursSlept')}
+    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'sleepQuality')}
     <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
     </div>`};
 }

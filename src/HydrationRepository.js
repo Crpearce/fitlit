@@ -1,7 +1,6 @@
 class HydrationRepository {
     constructor(hydrationData) {
         this.hydrationData = hydrationData;
-       
     };
   
     getUserHydrationById = (id) => this.hydrationData.filter(hydrationObj => hydrationObj.userID === id);

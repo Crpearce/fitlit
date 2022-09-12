@@ -14,6 +14,18 @@
       </section>
       <section class="daily-steps">Daily Steps: </section>
     </nav>
+    <section class="user-info-cards">
+      <div class="user-card">User</div>
+      <div class="hydration-card">Hydration</div>
+      <div class="sleep-card">Sleep</div>
+        <section class="sleep-calendar-section" id="sleepCalendarSection">
+          <label for="sleep-calendar">Update User's Data: </label>
+          <input aria-label="Enter a date for individual sleep data" class="date-input" id="dateInput" min="2019-06-15" max="2020-01-22" type="date" required>
+          <button aria-label="show sleep data for date button"class="show-sleep-btn" id="showSleepButton">Check for sleep data</button>
+          <button aria-label="reset"class="reset-sleep-btn" id="resetSleepButton">Reset sleep data</button>
+        </section>
+      <div class="activity-card">Activity</div>
+    </section>
     <section class="charts">
       <section class="hydration-display">
         <div>
@@ -35,18 +47,6 @@
           <canvas id="myAChart"></canvas>
         </div>
       </section>
-    </section>
-    <section class="user-info-cards">
-      <div class="user-card">User</div>
-      <div class="hydration-card">Hydration</div>
-      <div class="sleep-card">Sleep</div>
-        <section class="sleep-calendar-section" id="sleepCalendarSection">
-          <label for="sleep-calendar">Update User's Data: </label>
-          <input aria-label="Enter a date for individual sleep data" class="date-input" id="dateInput" min="2019-06-15" max="2020-01-22" type="date" required>
-          <button aria-label="show sleep data for date button"class="show-sleep-btn" id="showSleepButton">Check for sleep data</button>
-          <button aria-label="reset"class="reset-sleep-btn" id="resetSleepButton">Reset sleep data</button>
-        </section>
-      <div class="activity-card">Activity</div>
     </section>
 
 <!-- Do not include the scripts.js file here - it is done automatically by the webpack server -->
