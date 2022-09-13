@@ -1,11 +1,12 @@
 * {
-  font-family: 'Veranda', Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'Veranda', Verdana, Geneva, Tahoma, sans-serif; 
 }
 
 body, html {
   background-image: linear-gradient(to top, #ff9a9e 0%, #701ba5 99%, #fecfef 100%);
   background-repeat: no-repeat;
-  height: 100%;
+  height: vh;
+  color: whitesmoke;
 }
 
 nav {

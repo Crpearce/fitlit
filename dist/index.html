@@ -17,12 +17,21 @@
     <section class="user-info-cards">
       <div class="user-card">User</div>
       <div class="hydration-card">Hydration</div>
-      <div class="sleep-card">Sleep</div>
+      <div class="sleep-card">
+        <p>Sleep Info</p> 
+        <p>Daily Hours Slept: <span id="dailyHoursSlept"></span></p>
+        <p>Daily Quality of Sleep: <span id="dailyQualityOfSleep"></span></p>
+        <p>Average Hours Slept: <span id="averageHoursSlept"></span></p>
+        <p>Average Sleep Quality: <span id="averageSleepQuality"></span></p>
+        <p>Weekly Hours Slept: <span id="weeklyHoursSlept"></span></p>
+        <p>Weekly Sleep Quality: <span id="weeklySleepQuality"></span></p>
+        <p>All Users Average of Sleep Quality: <span id="allAverageSleepQuality"></span></p>
+      </div>
         <section class="sleep-calendar-section" id="sleepCalendarSection">
           <label for="sleep-calendar">Update User's Data: </label>
-          <input aria-label="Enter a date for individual sleep data" class="date-input" id="dateInput" min="2019-06-15" max="2020-01-22" type="date" required>
-          <button aria-label="show sleep data for date button"class="show-sleep-btn" id="showSleepButton">Check for sleep data</button>
-          <button aria-label="reset"class="reset-sleep-btn" id="resetSleepButton">Reset sleep data</button>
+          <input aria-label="Enter a date for individual data" class="date-input" id="dateInput" min="2019-06-15" max="2020-01-22" type="date" required>
+          <button aria-label="show sleep data for date button"class="show-sleep-btn" id="showSleepButton">Update User Data</button>
+          <button aria-label="reset"class="reset-sleep-btn" id="resetSleepButton">Reset Data</button>
         </section>
       <div class="activity-card">Activity</div>
     </section>

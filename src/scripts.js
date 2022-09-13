@@ -1,5 +1,4 @@
 import './css/styles.css';
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 import UserRepository from './UserRepository';
 import User from './User';
@@ -33,6 +32,7 @@ const getFetch = () => {
         displayUserInfo();
         displayHydrationInfo();
         displaySleepInfo();
+        createCharts()
     })
 };
 
@@ -48,9 +48,10 @@ function handleButtons(event) {
         break;
       case "reset-sleep-btn":
         displayHydrationInfo(event); 
-        break;
-        case "reset-sleep-btn":
         displaySleepInfo(event);
+        // destroyChart(event)
+        // break;
+        // case "reset-sleep-btn":
         break;
       default:
         break;
@@ -67,17 +68,16 @@ const welcomeUser = () => {
 
 const displayUserInfo = () => {
     let userCard = document.querySelector('.user-card');
-    userCard.innerHTML = `<div>
+    userCard.innerText = `
     User Info
-    <br>
-    <br>Name: ${singleUser.name}
-    <br>Address: ${singleUser.address}
-    <br>Email: ${singleUser.email}
-    <br>Stride Length: ${singleUser.strideLength}
-    <br>Step Goal: ${singleUser.dailyStepGoal}
-    <br>${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
-    </div>`;
-};
+    Name: ${singleUser.name}
+    Address: ${singleUser.address}
+    Email: ${singleUser.email}
+    Stride Length: ${singleUser.strideLength}
+    Step Goal: ${singleUser.dailyStepGoal}
+    ${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
+    `;
+}
 
 const findDate = () => {
     let id = singleUser.id;
@@ -87,18 +87,19 @@ const findDate = () => {
 };
 
 const displayHydrationInfo = () => {
-    let updateDate = dateInput.value.split('-').join('/');
     let hydroCard = document.querySelector('.hydration-card')
-    const hydroChart = document.getElementById('myHydroChart')
-    hydroCard.innerHTML = `<div>
+    // const hydroChart = document.getElementById('myHydroChart')
+    hydroCard.innerText = `
     Hydration Info
-    <br>
-    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
-    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
-    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.
-    </div>`;
+    ${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
+    Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
+    Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.
+    `;
+}
 
-// ON LINE 99 can i throw in a forEach onto ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} so that each number is followed by a space and oz., maybe a split and join?
+const createCharts = () => {
+    const hydroChart = document.getElementById('myHydroChart')
+    const sleepChart = document.getElementById('mySleepChart')
     const displayHydroChart = new Chart(hydroChart, {
         type: 'bar',
         data: {
@@ -120,79 +121,6 @@ const displayHydrationInfo = () => {
             maintainAspectRatio: false
         },
     })
-}
-// function updateConfigByMutating(chart) {
-//     chart.options.plugins.title.text = 'new title';
-//     chart.update();
-// }
-
-};
-
-
-const updateHydrationInfo = () => {
-    let updateDate = dateInput.value.split('-').join('/');
-    let hydroCard = document.querySelector('.hydration-card')
-    if (dateInput.value === "") { 
-    hydroCard.innerHTML = `<div>
-    Hydration Info
-    <br>
-    Please select a Valid Date
-    </div>`
-    } else {
-    hydroCard.innerHTML = `<div>
-    Hydration Info
-    <br>
-    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
-    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
-    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
-    </div>`;
-
-    // const displayHydroChart = new Chart(hydroChart, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-    //         datasets: [{
-    //             label: 'Ounces Drank Weekly',
-    //             data: hydroRepo.getWeeklyHydration(singleUser.id, updateDate),
-    //             backgroundColor: [
-    //                 'rgba(255, 99, 132, 1)',
-    //                 'rgba(54, 162, 235, 1)'
-    //             ],
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-                
-    //         },
-    //         maintainAspectRatio: false
-    //     },
-    // })
-    
-    // NEED TO GET CHART DATA TO UPDATE WITH CALENDAR EVENT
-    // putting a new chart in the updateHydration function does not create a new chart, nor does it update the chart data with the selection of a new date on the calendar
-    // maybe we make another chart that is hidden initially?, an updateHydroChart, and try and show that, hide the original, when the click event happens with the calendar?
-}
-    }
-};
-
-
-const displaySleepInfo = () => {
-    dateInput.value = '';
-    let sleepCard = document.querySelector('.sleep-card');
-    const sleepChart = document.getElementById('mySleepChart')
-    sleepCard.innerHTML = `<div>
-    Sleep Info
-    <br>
-    <br>Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
-    <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
-    <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
-    <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}
-    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}
-    <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
-    </div>`
-
     const displaySleepChart = new Chart(sleepChart, {
         type: 'bar',
         data: {
@@ -220,7 +148,79 @@ const displaySleepInfo = () => {
     })
 }
 
-};
+function updateConfigByMutating(chart) {
+    chart.options.plugins.title.text = 'new title';
+    chart.update();
+}
+
+
+const updateHydrationInfo = () => {
+    let updateDate = dateInput.value.split('-').join('/');
+    let hydroCard = document.querySelector('.hydration-card')
+    if (dateInput.value === "") { 
+    hydroCard.innerHTML = `<div>
+    Hydration Info
+    <br>
+    Please select a Valid Date
+    </div>`
+    } else {
+    hydroCard.innerHTML = `<div>
+    Hydration Info
+    <br>
+    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
+    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
+    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
+    </div>`;
+    
+    // NEED TO GET CHART DATA TO UPDATE WITH CALENDAR EVENT
+    // putting a new chart in the updateHydration function does not create a new chart, nor does it update the chart data with the selection of a new date on the calendar
+    // maybe we make another chart that is hidden initially?, an updateHydroChart, and try and show that, hide the original, when the click event happens with the calendar?
+}
+    }
+
+
+const displaySleepInfo = () => {
+    dateInput.value = '';
+    let sleepCard = document.querySelector('.sleep-card');
+    // let dailyHours = document.getElementById('#dailyHoursSlept')
+    // const sleepChart = document.getElementById('mySleepChart')
+    sleepCard.innerText = `
+    Sleep Info
+    Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
+    Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
+    Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
+    Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
+    Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}
+    Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}
+    All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
+    `
+
+    // const displaySleepChart = new Chart(sleepChart, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+    //         datasets: [{
+    //             label: 'Sleep Quality',
+    //             data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality'),
+    //             backgroundColor: 'rgba(255, 99, 132, 1)',
+    //             borderWidth: 1
+    //         },
+    //         {
+    //             label: 'Hours Slept',
+    //             data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'hoursSlept'),
+    //             backgroundColor: 'rgba(54, 162, 235, 1)',
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+
+    //         },
+    //         maintainAspectRatio: false
+    //     }
+
+    // })
+}
 
 
 const updateSleepInfo = () => {
@@ -248,5 +248,3 @@ const updateSleepInfo = () => {
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
 };
-
-  
