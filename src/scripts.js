@@ -1,5 +1,4 @@
 import './css/styles.css';
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 import UserRepository from './UserRepository';
 import User from './User';
@@ -70,16 +69,15 @@ const welcomeUser = () => {
 
 const displayUserInfo = () => {
     let userCard = document.querySelector('.user-card');
-    userCard.innerHTML = `<div>
+    userCard.innerText = `
     User Info
-    <br>
-    <br>Name: ${singleUser.name}
-    <br>Address: ${singleUser.address}
-    <br>Email: ${singleUser.email}
-    <br>Stride Length: ${singleUser.strideLength}
-    <br>Step Goal: ${singleUser.dailyStepGoal}
-    <br>${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
-    </div>`;
+    Name: ${singleUser.name}
+    Address: ${singleUser.address}
+    Email: ${singleUser.email}
+    Stride Length: ${singleUser.strideLength}
+    Step Goal: ${singleUser.dailyStepGoal}
+    ${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
+    `;
 }
 
 const findDate = () => {
@@ -90,16 +88,14 @@ const findDate = () => {
 }
 
 const displayHydrationInfo = () => {
-    let updateDate = dateInput.value.split('-').join('/');
     let hydroCard = document.querySelector('.hydration-card')
     const hydroChart = document.getElementById('myHydroChart')
-    hydroCard.innerHTML = `<div>
+    hydroCard.innerText = `
     Hydration Info
-    <br>
-    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
-    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
-    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.
-    </div>`;
+    ${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
+    Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
+    Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.
+    `;
 // ON LINE 99 can i throw in a forEach onto ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} so that each number is followed by a space and oz., maybe a split and join?
     const displayHydroChart = new Chart(hydroChart, {
         type: 'bar',
@@ -131,13 +127,11 @@ const displayHydrationInfo = () => {
 const updateHydrationInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
     let hydroCard = document.querySelector('.hydration-card')
-    hydroCard.innerHTML = `<div>
-    Hydration Info
-    <br>
-    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
-    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
-    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
-    </div>`;
+    hydroCard.innerText = `Hydration Info
+    ${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
+    Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
+    Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
+    `;
     // const displayHydroChart = new Chart(hydroChart, {
     //     type: 'bar',
     //     data: {
@@ -169,18 +163,18 @@ const updateHydrationInfo = () => {
 const displaySleepInfo = () => {
     dateInput.value = '';
     let sleepCard = document.querySelector('.sleep-card');
+    let dailyHours = document.getElementById('#dailyHoursSlept')
     const sleepChart = document.getElementById('mySleepChart')
-    sleepCard.innerHTML = `<div>
+    sleepCard.innerText = `
     Sleep Info
-    <br>
-    <br>Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
-    <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
-    <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
-    <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}
-    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}
-    <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
-    </div>`
+    Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
+    Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
+    Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
+    Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
+    Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}
+    Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}
+    All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
+    `
 
     const displaySleepChart = new Chart(sleepChart, {
         type: 'bar',
