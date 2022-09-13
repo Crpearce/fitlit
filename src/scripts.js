@@ -68,15 +68,18 @@ const welcomeUser = () => {
 
 const displayUserInfo = () => {
     let userCard = document.querySelector('.user-card');
-    userCard.innerText = `
-    User Info
-    Name: ${singleUser.name}
-    Address: ${singleUser.address}
-    Email: ${singleUser.email}
-    Stride Length: ${singleUser.strideLength}
-    Step Goal: ${singleUser.dailyStepGoal}
-    ${singleUser.name.split(" ")[0]}'s Friends: ${userRepo.parseFriends(singleUser.id)}
-    `;
+    let userName = document.querySelector('#name')
+    let userAddress = document.querySelector('#address')
+    let userEmail = document.querySelector('#email')
+    let userStride = document.querySelector('#stride')
+    let userStepGoal = document.querySelector('#stepGoal')
+    let userFriends = document.querySelector('#friends')
+    userName.innerText = `${singleUser.name}`
+    userAddress.innerText = `${singleUser.address}`
+    userEmail.innerText = `${singleUser.email}`
+    userStride.innerText = `${singleUser.strideLength}`
+    userStepGoal.innerText = `${singleUser.dailyStepGoal}`
+    userFriends.innerText = `${userRepo.parseFriends(singleUser.id)}`
 }
 
 const findDate = () => {
@@ -88,13 +91,12 @@ const findDate = () => {
 
 const displayHydrationInfo = () => {
     let hydroCard = document.querySelector('.hydration-card')
-    // const hydroChart = document.getElementById('myHydroChart')
-    hydroCard.innerText = `
-    Hydration Info
-    ${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
-    Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.
-    Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.
-    `;
+    let avgOunces = document.querySelector('#averageOuncesDrank')
+    let dailyOunces = document.querySelector('#dailyOunces')
+    let weeklyOunces = document.querySelector('#weeklyOunces')
+    avgOunces.innerText = `${hydroRepo.getUserAverageOunces(singleUser.id)} oz.`
+    dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.`
+    weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.`
 }
 
 const createCharts = () => {
@@ -157,6 +159,9 @@ function updateConfigByMutating(chart) {
 const updateHydrationInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
     let hydroCard = document.querySelector('.hydration-card')
+    let avgOunces = document.querySelector('#averageOuncesDrank')
+    let dailyOunces = document.querySelector('#dailyOunces')
+    let weeklyOunces = document.querySelector('#weeklyOunces')
     if (dateInput.value === "") { 
     hydroCard.innerHTML = `<div>
     Hydration Info
@@ -164,13 +169,9 @@ const updateHydrationInfo = () => {
     Please select a Valid Date
     </div>`
     } else {
-    hydroCard.innerHTML = `<div>
-    Hydration Info
-    <br>
-    <br>${singleUser.name.split(" ")[0]}'s Average Ounces: ${hydroRepo.getUserAverageOunces(singleUser.id)} oz.
-    <br>Water Consumed Today: ${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.
-    <br>Ounces Consumed This Week: ${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)}
-    </div>`;
+    avgOunces.innerText = `${hydroRepo.getUserAverageOunces(singleUser.id)} oz.`
+    dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.`
+    weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)} oz.`
     
     // NEED TO GET CHART DATA TO UPDATE WITH CALENDAR EVENT
     // putting a new chart in the updateHydration function does not create a new chart, nor does it update the chart data with the selection of a new date on the calendar
@@ -182,69 +183,49 @@ const updateHydrationInfo = () => {
 const displaySleepInfo = () => {
     dateInput.value = '';
     let sleepCard = document.querySelector('.sleep-card');
-    // let dailyHours = document.getElementById('#dailyHoursSlept')
-    // const sleepChart = document.getElementById('mySleepChart')
-    sleepCard.innerText = `
-    Sleep Info
-    Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}
-    Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}
-    Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
-    Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}
-    Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}
-    All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
-    `
-
-    // const displaySleepChart = new Chart(sleepChart, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-    //         datasets: [{
-    //             label: 'Sleep Quality',
-    //             data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality'),
-    //             backgroundColor: 'rgba(255, 99, 132, 1)',
-    //             borderWidth: 1
-    //         },
-    //         {
-    //             label: 'Hours Slept',
-    //             data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'hoursSlept'),
-    //             backgroundColor: 'rgba(54, 162, 235, 1)',
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-
-    //         },
-    //         maintainAspectRatio: false
-    //     }
-
-    // })
+    let dailyHours = document.querySelector('#dailyHoursSlept')
+    let dailyQuality = document.querySelector('#dailyQualityOfSleep')
+    let avgHours = document.querySelector('#averageHoursSlept')
+    let avgQuality = document.querySelector("#averageSleepQuality")
+    let weeklyHours = document.querySelector('#weeklyHoursSlept')
+    let weeklyQuality = document.querySelector('#weeklySleepQuality')
+    let allAvgQuality = document.querySelector('#allAverageSleepQuality')
+    dailyHours.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}`
+    dailyQuality.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}`
+    avgHours.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}`
+    avgQuality.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}`
+    weeklyHours.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}`
+    weeklyQuality.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}`
+    allAvgQuality.innerText = `${sleepRepo.allUsersAverageSleepQuality()}`
 }
 
 
 const updateSleepInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
     let sleepCard = document.querySelector('.sleep-card');
+    let dailyHours = document.querySelector('#dailyHoursSlept')
+    let dailyQuality = document.querySelector('#dailyQualityOfSleep')
+    let avgHours = document.querySelector('#averageHoursSlept')
+    let avgQuality = document.querySelector("#averageSleepQuality")
+    let weeklyHours = document.querySelector('#weeklyHoursSlept')
+    let weeklyQuality = document.querySelector('#weeklySleepQuality')
+    let allAvgQuality = document.querySelector('#allAverageSleepQuality')
     if (dateInput.value === "") { sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
     Please select a Valid Date
     </div>`
     } else {   
-    sleepCard.innerHTML = `<div>
-    Sleep Info
-    <br>
-    <br>Daily Hours Slept: ${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept', updateDate)}
-    <br>Daily Quality of Sleep: ${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality', updateDate)}
-    <br>Average Hours Slept: ${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}
-    <br>Average Quality of Sleep: ${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}
-    <br>Weekly Average of Hours Slept: ${sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'hoursSlept')}
-    <br>Weekly Average of Sleep Quality: ${sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'sleepQuality')}
-    <br>All Users Average of Sleep Quality: ${sleepRepo.allUsersAverageSleepQuality()}
-    </div>`};
+        dailyHours.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}`
+        dailyQuality.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}`
+        avgHours.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}`
+        avgQuality.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}`
+        weeklyHours.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'hoursSlept')}`
+        weeklyQuality.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'sleepQuality')}`
+        allAvgQuality.innerText = `${sleepRepo.allUsersAverageSleepQuality()}`
+    }
 };
 
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
-};
+}
