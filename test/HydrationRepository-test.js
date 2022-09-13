@@ -101,12 +101,12 @@ describe("Hydration Repository", () => {
  })
 
  it('Should have a weekly average of ounces for a user', () => {
-  expect(hydrationRepository1.getWeeklyHydration(1, '2019/06/22')).to.deep.equal([" 85 oz.",
-   " 87 oz.",
-   " 87 oz.",
-   " 87 oz.",
-   " 87 oz.",
-   " 87 oz.",
-   " 65 oz."])
+  expect(hydrationRepository1.getWeeklyHydration(1, '2019/06/22')).to.deep.equal([85,
+   87,
+   87,
+   87,
+   87,
+   87,
+   65])
  })
 });

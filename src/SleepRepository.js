@@ -27,7 +27,7 @@ class SleepRepository {
     }
   };
 
-  getWeeklySleep = (id, date, hoursOrQuality) => {
+  getWeeklySleepAvg = (id, date, hoursOrQuality) => {
     const userSleep = this.getSleepById(id);
     const getDates = userSleep.map((object) => object.date);
     const dateIndex = getDates.indexOf(date);
@@ -38,6 +38,22 @@ class SleepRepository {
     }, 0);
     return sleptAvg.toFixed(2);
   };
+
+  getWeeklySleep = (id, date, hoursOrQuality) => {
+    const userSleep = this.getSleepById(id);
+    const getDates = userSleep.map((object) => object.date);
+    const dateIndex = getDates.indexOf(date);
+    const weeklyRange = userSleep.slice(dateIndex - 6, dateIndex + 1);
+    const sleepRange = weeklyRange.reduce((sleepArr, hours) => {
+      userSleep.forEach(userDate => {
+        if(hours.date === userDate.date) {
+          sleepArr.push(hours[hoursOrQuality])
+        }
+      })
+      return sleepArr
+    }, [])
+    return sleepRange
+  }
 
   allUsersAverageSleepQuality = () => {
     const usersSleep = this.sleepData.reduce((avgSleepQuality, user) => {

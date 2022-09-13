@@ -1,7 +1,6 @@
 class HydrationRepository {
     constructor(hydrationData) {
         this.hydrationData = hydrationData;
-       
     };
   
     getUserHydrationById = (id) => this.hydrationData.filter(hydrationObj => hydrationObj.userID === id);
@@ -35,7 +34,7 @@ class HydrationRepository {
       let weeklyRange = dateRange.reduce((averageArr, date) => {
         userHydration.forEach(userDate => {
           if(date.date === userDate.date) {
-            averageArr.push(` ${date.numOunces} oz.`)
+            averageArr.push(date.numOunces)
           }
         })
         return averageArr
