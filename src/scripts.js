@@ -226,6 +226,11 @@ const updateSleepInfo = () => {
     }
 };
 
+const updateActivityInfo = () => {
+    let dailyMiles = document.querySelector("#dailyMilesWalked")
+ }
+ 
+
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
 }
