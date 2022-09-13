@@ -9,6 +9,26 @@ import Chart from 'chart.js/auto'
 
 // QUERYSELECTORS
 const dateInput = document.querySelector(".date-input");
+let dailyHours = document.querySelector('#dailyHoursSlept')
+let dailyQuality = document.querySelector('#dailyQualityOfSleep')
+let avgHours = document.querySelector('#averageHoursSlept')
+let avgQuality = document.querySelector("#averageSleepQuality")
+let weeklyHours = document.querySelector('#weeklyHoursSlept')
+let weeklyQuality = document.querySelector('#weeklySleepQuality')
+let allAvgQuality = document.querySelector('#allAverageSleepQuality')
+let sleepCard = document.querySelector('.sleep-card');
+let userCard = document.querySelector('.user-card');
+let userName = document.querySelector('#name')
+let userAddress = document.querySelector('#address')
+let userEmail = document.querySelector('#email')
+let userStride = document.querySelector('#stride')
+let userStepGoal = document.querySelector('#stepGoal')
+let userFriends = document.querySelector('#friends')
+let hydroCard = document.querySelector('.hydration-card')
+let avgOunces = document.querySelector('#averageOuncesDrank')
+let dailyOunces = document.querySelector('#dailyOunces')
+let weeklyOunces = document.querySelector('#weeklyOunces')
+
 
 // GLOBAL VARIABLES
 let users;
@@ -67,13 +87,6 @@ const welcomeUser = () => {
 };
 
 const displayUserInfo = () => {
-    let userCard = document.querySelector('.user-card');
-    let userName = document.querySelector('#name')
-    let userAddress = document.querySelector('#address')
-    let userEmail = document.querySelector('#email')
-    let userStride = document.querySelector('#stride')
-    let userStepGoal = document.querySelector('#stepGoal')
-    let userFriends = document.querySelector('#friends')
     userName.innerText = `${singleUser.name}`
     userAddress.innerText = `${singleUser.address}`
     userEmail.innerText = `${singleUser.email}`
@@ -90,10 +103,6 @@ const findDate = () => {
 };
 
 const displayHydrationInfo = () => {
-    let hydroCard = document.querySelector('.hydration-card')
-    let avgOunces = document.querySelector('#averageOuncesDrank')
-    let dailyOunces = document.querySelector('#dailyOunces')
-    let weeklyOunces = document.querySelector('#weeklyOunces')
     avgOunces.innerText = `${hydroRepo.getUserAverageOunces(singleUser.id)} oz.`
     dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.`
     weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.`
@@ -158,10 +167,6 @@ function updateConfigByMutating(chart) {
 
 const updateHydrationInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
-    let hydroCard = document.querySelector('.hydration-card')
-    let avgOunces = document.querySelector('#averageOuncesDrank')
-    let dailyOunces = document.querySelector('#dailyOunces')
-    let weeklyOunces = document.querySelector('#weeklyOunces')
     if (dateInput.value === "") { 
     hydroCard.innerHTML = `<div>
     Hydration Info
@@ -182,14 +187,6 @@ const updateHydrationInfo = () => {
 
 const displaySleepInfo = () => {
     dateInput.value = '';
-    let sleepCard = document.querySelector('.sleep-card');
-    let dailyHours = document.querySelector('#dailyHoursSlept')
-    let dailyQuality = document.querySelector('#dailyQualityOfSleep')
-    let avgHours = document.querySelector('#averageHoursSlept')
-    let avgQuality = document.querySelector("#averageSleepQuality")
-    let weeklyHours = document.querySelector('#weeklyHoursSlept')
-    let weeklyQuality = document.querySelector('#weeklySleepQuality')
-    let allAvgQuality = document.querySelector('#allAverageSleepQuality')
     dailyHours.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}`
     dailyQuality.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}`
     avgHours.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}`
@@ -202,14 +199,6 @@ const displaySleepInfo = () => {
 
 const updateSleepInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
-    let sleepCard = document.querySelector('.sleep-card');
-    let dailyHours = document.querySelector('#dailyHoursSlept')
-    let dailyQuality = document.querySelector('#dailyQualityOfSleep')
-    let avgHours = document.querySelector('#averageHoursSlept')
-    let avgQuality = document.querySelector("#averageSleepQuality")
-    let weeklyHours = document.querySelector('#weeklyHoursSlept')
-    let weeklyQuality = document.querySelector('#weeklySleepQuality')
-    let allAvgQuality = document.querySelector('#allAverageSleepQuality')
     if (dateInput.value === "") { sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
