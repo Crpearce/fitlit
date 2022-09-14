@@ -58,9 +58,9 @@ describe("Activity Repository", () => {
     expect(activityRepository1.activityData).to.deep.equal(activityData1);
   });
 
-  it('should be able to return a date', () => {
-    console.log()
-    expect(activityRepository1.findActivityDate(1)).to.equal("2019/06/17")
+  it('should be able to return a user miles walked by date', () => {
+    //console.log(activityRepository1.getMilesWalked(1, 4.3))
+    expect(activityRepository1.getMilesWalked(1, 4.3)).to.equal('4.87')
   })
 
   it("should be able to access Activity Data by ID", () => {
@@ -89,7 +89,13 @@ describe("Activity Repository", () => {
       ]);
   });
 
-  it('should be able to determine to total number of miles walked', () => {
-    expect(activityRepository1.getMilesWalked(1)).to.equal("2019/06/17")
-  })
+it('should be able to return a users active minutes each day', () => {
+    expect(activityRepository1.activeMinutesEachDay(1)).to.equal(140);
+})
+
+it('should be able to return if a user met their step goal', () => {
+    console.log(activityRepository1.dailyStepGoalAchieved(1, 1000))
+    expect(activityRepository1.dailyStepGoalAchieved(1, 1000)).to.equal(true);
+})
+
 });
