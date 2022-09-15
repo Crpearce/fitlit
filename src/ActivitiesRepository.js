@@ -58,6 +58,21 @@ class ActivitiesRepository{
           } 
     }
 
+    allTimeStepGoalAchievements = (id, dailyStepGoal) => {
+        let userActivity = this.getActivityData(id);
+        let goalAchieved = userActivity.filter(day => day.numSteps > dailyStepGoal)
+        return goalAchieved.length
+    }
+
+    allTimeStairClimbingRecord = (id) => {
+        let userActivity = this.getActivityData(id);
+        let goalAchieved = userActivity.reduce((acc, day) => {
+            return (acc.flightsOfStairs > day.flightsOfStairs) ? acc : day
+        })
+        return goalAchieved.flightsOfStairs
+    }
+
+
 
 }
 

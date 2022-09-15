@@ -12,14 +12,14 @@ describe("Activity Repository", () => {
         date: "2019/06/15",
         numSteps: 3577,
         minutesActive: 140,
-        flightsOfStairs: 16,
+        flightsOfStairs: 14,
       },
       {
         userID: 1,
         date: "2019/06/16",
         numSteps: 6577,
         minutesActive: 140,
-        flightsOfStairs: 16,
+        flightsOfStairs: 19,
       },
       {
         userID: 1,
@@ -40,7 +40,7 @@ describe("Activity Repository", () => {
         date: "2019/06/19",
         numSteps: 5977,
         minutesActive: 140,
-        flightsOfStairs: 16,
+        flightsOfStairs: 50,
       },
       {
         userID: 1,
@@ -119,6 +119,14 @@ describe("Activity Repository", () => {
   });
 
   it("should be able to return a weekly average for minutes", () => {
-    expect(activityRepository1.getWeeklyMinutes(1, "2019/06/22")).to.deep.equal(140);
+    expect(activityRepository1.getWeeklyMinutesAvg(1, "2019/06/22")).to.deep.equal('140');
   });
+
+  it("should be able to return all days step goal was achieved", () => {
+    expect(activityRepository1.allTimeStepGoalAchievements(1, 4000)).to.equal(7);
+  })
+
+  it('should be able to return the highest stair goal achieved', () => {
+        expect(activityRepository1.allTimeStairClimbingRecord(1)).to.equal(50)
+  })
 });
