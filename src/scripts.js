@@ -40,7 +40,6 @@ const getFetch = () => {
         displaySleepInfo();
         displayActivityInfo();
         createCharts();
-        
     })
 };
 
@@ -101,11 +100,17 @@ const findSleepDate = () => {
 
 const findHydrationDate = () => {
     let id = singleUser.id;
-    console.log(hydroRepo)
     let allHydroData = hydroRepo.hydrationData.filter(user => user.userID === id);
     const getDates = allHydroData.map(user => user.date).pop();
     return getDates;
 };
+
+const findActivityDate = () => {
+    let id = singleUser.id;
+    let allActivityData = activityRepo.activityData.filter(user => user.userID === id);
+    const getDates = allActivityData.map(user => user.date).pop();
+    return getDates;
+}
 
 const displayHydrationInfo = () => {
     let hydroCard = document.querySelector('.hydration-card')
@@ -121,9 +126,17 @@ const displayActivityInfo = () => {
     let dailyMiles = document.querySelector("#dailyMilesWalked")
     let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
     let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
+    let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
+    let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
+    let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
     dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength)}`
     totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id)}`
     dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal)}`
+    weeklyMinuteAvg.innerText = `${activityRepo.getWeeklyMinutesAvg(singleUser.id, findActivityDate())}`
+    allTimeStepGoal.innerText = `${activityRepo.allTimeStepGoalAchievements(singleUser.id, singleUser.dailyStepGoal)}`
+    allTimeStairRecord.innerText = `${activityRepo.allTimeStairClimbingRecord(singleUser.id)}`
+
+
  }
 
 
@@ -260,9 +273,15 @@ const updateActivityInfo = () => {
     let dailyMiles = document.querySelector("#dailyMilesWalked")
     let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
     let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
+    let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
+    let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
+    let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
     dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength, updateDate)}`
     totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id, updateDate)}`
     dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal, updateDate)}`
+    weeklyMinuteAvg.innerText = `${activityRepo.getWeeklyMinutesAvg(singleUser.id, updateDate)}`
+    allTimeStepGoal.innerText = `${activityRepo.allTimeStepGoalAchievements(singleUser.id, singleUser.dailyStepGoal)}`
+    allTimeStairRecord.innerText = `${activityRepo.allTimeStairClimbingRecord(singleUser.id)}`
  }
  
 
