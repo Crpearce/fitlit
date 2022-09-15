@@ -5,17 +5,6 @@ class ActivitiesRepository{
 
     getActivityData = (id) => this.activityData.filter(activityObj => activityObj.userID === id);
     
-    // findActivityDate = (id, selectedDate) => {
-    //     let userActivity = this.getActivityData(id);
-    //     if(!selectedDate) {
-    //       let findDate = userActivity.map(activityObj => activityObj.date).pop()
-    //       return findDate
-    //     } else {
-    //       let today = userActivity.find(activityObj => activityObj.date === selectedDate)
-    //       return today
-    //     }
-    // }
-    
 
     getMilesWalked = (id, strideLength, selectedDate) => {
         let userActivity = this.getActivityData(id);
@@ -45,19 +34,31 @@ class ActivitiesRepository{
           } 
     }
 
+    getWeeklyMinutesAvg = (id, date) => {
+        let userActivity = this.getActivityData(id)
+        let findWeek = userActivity.map(activityObj => activityObj.date)
+        const dateIndex = findWeek.indexOf(date)
+        let dateRange = userActivity.slice(dateIndex - 6, dateIndex + 1)
+        let weeklyRange = dateRange.reduce((average, day) => {
+            average += day.minutesActive / 7
+          return average
+        }, 0)
+        return weeklyRange.toFixed(0)
+       }
+
     dailyStepGoalAchieved = (id, dailyStepGoal, selectedDate) => {
         let userActivity = this.getActivityData(id);
         if (!selectedDate) {
             let findDate = userActivity.map(activityObj => activityObj.date).pop()
             let todaysData = userActivity.find(activityObj => activityObj.date === findDate)
-            console.log(todaysData.numSteps)
-            console.log(dailyStepGoal)
             return todaysData.numSteps >= dailyStepGoal ? true : false
           } else {
             let todaysData = userActivity.find(activityObj => activityObj.date === selectedDate)
             return todaysData.numSteps >= dailyStepGoal ? true : false
           } 
     }
+
+
 }
 
 export default ActivitiesRepository;
