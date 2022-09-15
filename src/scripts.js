@@ -6,6 +6,7 @@ import { fetchAll } from './apiCalls';
 import HydrationRepository from './HydrationRepository';
 import SleepRepository from './SleepRepository';
 import Chart from 'chart.js/auto'
+import ActivitiesRepository from './ActivitiesRepository';
 
 // QUERYSELECTORS
 const dateInput = document.querySelector(".date-input");
@@ -18,21 +19,28 @@ let sleepRepo;
 let sleep;
 let hydration;
 let singleUser;
+let activity;
+let activityRepo;
 const getFetch = () => {
     fetchAll()
     .then(data => {
         users = data[0].userData;
         sleep = data[1].sleepData;
         hydration = data[2].hydrationData;
+        activity = data[3].activityData
         userRepo = new UserRepository(users);
         singleUser = new User(users[getRandomUser()]);
         hydroRepo = new HydrationRepository(hydration);
         sleepRepo = new SleepRepository(sleep);
+        activityRepo = new ActivitiesRepository(activity)
+        console.log(userRepo)
         welcomeUser();
         displayUserInfo();
         displayHydrationInfo();
         displaySleepInfo();
-        createCharts()
+        displayActivityInfo();
+        createCharts();
+        
     })
 };
 
@@ -42,13 +50,15 @@ sleepCalendarSection.addEventListener("click", handleButtons);
 
 function handleButtons(event) {
     switch (event.target.className) {
-      case "show-sleep-btn":
+      case "show-data-btn":
         updateHydrationInfo(event);
         updateSleepInfo(event);
+        updateActivityInfo(event);
         break;
-      case "reset-sleep-btn":
+      case "reset-data-btn":
         displayHydrationInfo(event); 
         displaySleepInfo(event);
+        displayActivityInfo(event);
         // destroyChart(event)
         // break;
         // case "reset-sleep-btn":
@@ -82,10 +92,18 @@ const displayUserInfo = () => {
     userFriends.innerText = `${userRepo.parseFriends(singleUser.id)}`
 }
 
-const findDate = () => {
+const findSleepDate = () => {
     let id = singleUser.id;
     let allSleepData = sleepRepo.sleepData.filter(user => user.userID === id);
     const getDates = allSleepData.map(user => user.date).pop();
+    return getDates;
+};
+
+const findHydrationDate = () => {
+    let id = singleUser.id;
+    console.log(hydroRepo)
+    let allHydroData = hydroRepo.hydrationData.filter(user => user.userID === id);
+    const getDates = allHydroData.map(user => user.date).pop();
     return getDates;
 };
 
@@ -95,9 +113,20 @@ const displayHydrationInfo = () => {
     let dailyOunces = document.querySelector('#dailyOunces')
     let weeklyOunces = document.querySelector('#weeklyOunces')
     avgOunces.innerText = `${hydroRepo.getUserAverageOunces(singleUser.id)} oz.`
-    dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, findDate())} oz.`
-    weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, findDate())} oz.`
+    dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, findHydrationDate())} oz.`
+    weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, findHydrationDate())} oz.`
 }
+
+const displayActivityInfo = () => {
+    let dailyMiles = document.querySelector("#dailyMilesWalked")
+    let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
+    let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
+    dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength)}`
+    totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id)}`
+    dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal)}`
+ }
+
+
 
 const createCharts = () => {
     const hydroChart = document.getElementById('myHydroChart')
@@ -108,7 +137,7 @@ const createCharts = () => {
             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
             datasets: [{
                 label: 'Ounces Drank Weekly',
-                data: hydroRepo.getWeeklyHydration(singleUser.id, findDate()),
+                data: hydroRepo.getWeeklyHydration(singleUser.id, findHydrationDate()),
                 backgroundColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)'
@@ -129,13 +158,13 @@ const createCharts = () => {
             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
             datasets: [{
                 label: 'Sleep Quality',
-                data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'sleepQuality'),
+                data: sleepRepo.getWeeklySleep(singleUser.id, findSleepDate(), 'sleepQuality'),
                 backgroundColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
                 label: 'Hours Slept',
-                data: sleepRepo.getWeeklySleep(singleUser.id, findDate(), 'hoursSlept'),
+                data: sleepRepo.getWeeklySleep(singleUser.id, findSleepDate(), 'hoursSlept'),
                 backgroundColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
@@ -194,8 +223,8 @@ const displaySleepInfo = () => {
     dailyQuality.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}`
     avgHours.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}`
     avgQuality.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'sleepQuality')}`
-    weeklyHours.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'hoursSlept')}`
-    weeklyQuality.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findDate(), 'sleepQuality')}`
+    weeklyHours.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findSleepDate(), 'hoursSlept')}`
+    weeklyQuality.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findSleepDate(), 'sleepQuality')}`
     allAvgQuality.innerText = `${sleepRepo.allUsersAverageSleepQuality()}`
 }
 
@@ -225,6 +254,17 @@ const updateSleepInfo = () => {
         allAvgQuality.innerText = `${sleepRepo.allUsersAverageSleepQuality()}`
     }
 };
+
+const updateActivityInfo = () => {
+    let updateDate = dateInput.value.split('-').join('/');
+    let dailyMiles = document.querySelector("#dailyMilesWalked")
+    let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
+    let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
+    dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength, updateDate)}`
+    totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id, updateDate)}`
+    dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal, updateDate)}`
+ }
+ 
 
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
