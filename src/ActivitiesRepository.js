@@ -20,16 +20,16 @@ class ActivitiesRepository{
           } 
     }
 
-    activeMinutesEachDay = (id, selectedDate) => {
+    activityEachDay = (id, selectedDate, activity) => {
         let userActivity = this.getActivityData(id);
         if (!selectedDate) {
             let findDate = userActivity.map(activityObj => activityObj.date).pop()
             let todaysData = userActivity.find(activityObj => activityObj.date === findDate)
-            let findMinutesPerDay = todaysData.minutesActive
+            let findMinutesPerDay = todaysData[activity]
             return findMinutesPerDay
           } else {
             let todaysData = userActivity.find(activityObj => activityObj.date === selectedDate)
-            let findMinutesPerDay = todaysData.minutesActive
+            let findMinutesPerDay = todaysData[activity]
             return findMinutesPerDay
           } 
     }
@@ -39,7 +39,6 @@ class ActivitiesRepository{
         let findWeek = userActivity.map(activityObj => activityObj.date)
         const dateIndex = findWeek.indexOf(date)
         let dateRange = userActivity.slice(dateIndex - 6, dateIndex + 1)
-        console.log(dateRange)
         let weeklyRange = dateRange.reduce((average, day) => {
             average += day.minutesActive / 7
           return average
@@ -85,13 +84,26 @@ class ActivitiesRepository{
       return weeklyRange
      }
 
-    //  allUsersAverageActivity = (activity) => {
-    //   const usersActivity = this.activityData.reduce((avgActivity, user) => {
-    //     avgActivity += user[activity] / this.activityData.length;
-    //     return avgActivity;
-    //   }, 0);
-    //   return usersActivity.toFixed(2);
-    // };
+     allUsersAverageActivity = (activity, selectedDate) => {
+      if (!selectedDate) {
+        let findDate = this.activityData.map(activityObj => activityObj.date).pop()
+        let dateHistory = this.activityData.filter(activityObj => activityObj.date === findDate)
+        const usersActivity = dateHistory.reduce((avgActivity, user) => {
+        avgActivity += user[activity] / dateHistory.length;
+        return avgActivity;
+      }, 0);
+      return usersActivity.toFixed(0);
+    } else {
+      let todaysData = this.activityData.find(activityObj => activityObj.date === selectedDate).date
+      let dateHistory = this.activityData.filter(activityObj => activityObj.date === todaysData)
+      const usersActivity = dateHistory.reduce((avgActivity, user) => {
+        avgActivity += user[activity] / dateHistory.length;
+        return avgActivity;
+      }, 0);
+      return usersActivity.toFixed(0);
+    }
+  }
+
 
 }
 
