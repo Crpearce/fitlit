@@ -129,4 +129,52 @@ describe("Activity Repository", () => {
   it('should be able to return the highest stair goal achieved', () => {
         expect(activityRepository1.allTimeStairClimbingRecord(1)).to.equal(50)
   })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "numSteps")).to.deep.equal([
+      6577, 5977,
+      5977, 5977,
+      5977, 5977,
+      5977
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "minutesActive")).to.deep.equal([
+      140, 140, 140,
+      140, 140, 140,
+      140
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "flightsOfStairs")).to.deep.equal([
+      19, 16, 16, 50,
+      16, 16, 16
+    ])
+  })
+
+  it('should be able to return the average number of steps', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "numSteps")).to.deep.equal([
+      6577, 5977,
+      5977, 5977,
+      5977, 5977,
+      5977
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "minutesActive")).to.deep.equal([
+      140, 140, 140,
+      140, 140, 140,
+      140
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "flightsOfStairs")).to.deep.equal([
+      19, 16, 16, 50,
+      16, 16, 16
+    ])
+  })
 });

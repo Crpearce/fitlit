@@ -39,6 +39,7 @@ class ActivitiesRepository{
         let findWeek = userActivity.map(activityObj => activityObj.date)
         const dateIndex = findWeek.indexOf(date)
         let dateRange = userActivity.slice(dateIndex - 6, dateIndex + 1)
+        console.log(dateRange)
         let weeklyRange = dateRange.reduce((average, day) => {
             average += day.minutesActive / 7
           return average
@@ -72,7 +73,25 @@ class ActivitiesRepository{
         return goalAchieved.flightsOfStairs
     }
 
+    getAllThreeWeeklyActivity = (id, date, activity) => {
+      let userActivity = this.getActivityData(id)
+      let findWeek = userActivity.map(activityObj => activityObj.date)
+      const dateIndex = findWeek.indexOf(date)
+      let dateRange = userActivity.slice(dateIndex - 6, dateIndex + 1)
+      let weeklyRange = dateRange.reduce((activityObj, day) => {
+        activityObj.push(day[activity])
+        return activityObj
+      }, [])
+      return weeklyRange
+     }
 
+    //  allUsersAverageActivity = (activity) => {
+    //   const usersActivity = this.activityData.reduce((avgActivity, user) => {
+    //     avgActivity += user[activity] / this.activityData.length;
+    //     return avgActivity;
+    //   }, 0);
+    //   return usersActivity.toFixed(2);
+    // };
 
 }
 

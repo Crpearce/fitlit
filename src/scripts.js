@@ -129,12 +129,18 @@ const displayActivityInfo = () => {
     let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
     let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
     let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
+    let numSteps = document.querySelector("#numSteps")
+    let minutesActive = document.querySelector("#minutesActive")
+    let flightsOfStairs = document.querySelector("#flightsOfStairs")
     dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength)}`
     totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id)}`
     dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal)}`
     weeklyMinuteAvg.innerText = `${activityRepo.getWeeklyMinutesAvg(singleUser.id, findActivityDate())}`
     allTimeStepGoal.innerText = `${activityRepo.allTimeStepGoalAchievements(singleUser.id, singleUser.dailyStepGoal)}`
     allTimeStairRecord.innerText = `${activityRepo.allTimeStairClimbingRecord(singleUser.id)}`
+    numSteps.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'numSteps')}`
+    minutesActive.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'minutesActive')}`
+    flightsOfStairs.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'flightsOfStairs')}`
 
 
  }
@@ -276,12 +282,19 @@ const updateActivityInfo = () => {
     let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
     let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
     let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
+    let numSteps = document.querySelector("#numSteps")
+    let minutesActive = document.querySelector("#minutesActive")
+    let flightsOfStairs = document.querySelector("#flightsOfStairs")
     dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength, updateDate)}`
     totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id, updateDate)}`
     dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal, updateDate)}`
     weeklyMinuteAvg.innerText = `${activityRepo.getWeeklyMinutesAvg(singleUser.id, updateDate)}`
     allTimeStepGoal.innerText = `${activityRepo.allTimeStepGoalAchievements(singleUser.id, singleUser.dailyStepGoal)}`
     allTimeStairRecord.innerText = `${activityRepo.allTimeStairClimbingRecord(singleUser.id)}`
+    numSteps.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'numSteps')}`
+    minutesActive.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'minutesActive')}`
+    flightsOfStairs.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'flightsOfStairs')}`
+
  }
  
 
