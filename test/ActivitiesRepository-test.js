@@ -111,7 +111,15 @@ describe("Activity Repository", () => {
   });
 
   it("should be able to return a users active minutes each day", () => {
-    expect(activityRepository1.activeMinutesEachDay(1)).to.equal(140);
+    expect(activityRepository1.activityEachDay(1, '2019/06/22', 'minutesActive')).to.equal(140);
+  });
+
+  it("should be able to return a users number of steps each day", () => {
+    expect(activityRepository1.activityEachDay(1, '2019/06/22', 'numSteps')).to.equal(5977);
+  });
+
+  it("should be able to return a users flights of stairs each day", () => {
+    expect(activityRepository1.activityEachDay(1, '2019/06/22', 'flightsOfStairs')).to.equal(16);
   });
 
   it("should be able to return if a user met their step goal", () => {
@@ -128,5 +136,65 @@ describe("Activity Repository", () => {
 
   it('should be able to return the highest stair goal achieved', () => {
         expect(activityRepository1.allTimeStairClimbingRecord(1)).to.equal(50)
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "numSteps")).to.deep.equal([
+      6577, 5977,
+      5977, 5977,
+      5977, 5977,
+      5977
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "minutesActive")).to.deep.equal([
+      140, 140, 140,
+      140, 140, 140,
+      140
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "flightsOfStairs")).to.deep.equal([
+      19, 16, 16, 50,
+      16, 16, 16
+    ])
+  })
+
+  it('should be able to return the average number of steps', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "numSteps")).to.deep.equal([
+      6577, 5977,
+      5977, 5977,
+      5977, 5977,
+      5977
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "minutesActive")).to.deep.equal([
+      140, 140, 140,
+      140, 140, 140,
+      140
+    ])
+  })
+
+  it('should be able to return the weekly activity for all 3 activities', () => {
+    expect(activityRepository1.getAllThreeWeeklyActivity(1, '2019/06/22', "flightsOfStairs")).to.deep.equal([
+      19, 16, 16, 50,
+      16, 16, 16
+    ])
+  })
+
+  it('should be able to find average for all users minutesActive for selected day', () => {
+    expect(activityRepository1.allUsersAverageActivity('minutesActive')).to.equal('131')
+  })
+
+  it('should be able to find average for all users numSteps for selected day', () => {
+    expect(activityRepository1.allUsersAverageActivity('numSteps')).to.equal('5091')
+  })
+
+  it('should be able to find average for all users flightsOfStairs for selected day', () => {
+    expect(activityRepository1.allUsersAverageActivity('flightsOfStairs', '2019/06/15')).to.equal('19')
   })
 });

@@ -15,7 +15,7 @@
       <section class="daily-steps">Daily Steps: </section>
     </nav>
     <section class="user-info-cards">
-      <div class="user-card">
+      <div class="user-card card">
         <p>User Info</p>
         <p>Name: <span id='name'></span></p>
         <p>Address: <span id="address"></span></p>
@@ -24,13 +24,13 @@
         <p>Step Goal: <span id="stepGoal"></span></p>
         <p>User's Friends: <span id="friends"></span></p>
       </div>
-      <div class="hydration-card">
+      <div class="hydration-card card">
         <p>Hydration Info</p>
         <p>Average Ounces Drank: <span id="averageOuncesDrank"></span></p>
         <p>Water Consumed Today: <span id="dailyOunces"></span></p>
         <p>Ounces Consumed This Week: <span id="weeklyOunces"></span></span></p>
         </div>
-      <div class="sleep-card">
+      <div class="sleep-card card">
         <p>Sleep Info</p> 
         <p>Daily Hours Slept: <span id="dailyHoursSlept"></span></p>
         <p>Daily Quality of Sleep: <span id="dailyQualityOfSleep"></span></p>
@@ -40,22 +40,31 @@
         <p>Weekly Sleep Quality: <span id="weeklySleepQuality"></span></p>
         <p>All Users Average of Sleep Quality: <span id="allAverageSleepQuality"></span></p>
       </div>
-        <section class="sleep-calendar-section" id="sleepCalendarSection">
+      <div class="activity-card card">
+        <p>Activity</p>
+        <p>Daily Miles Walked: <span id="dailyMilesWalked"></span></p>
+        <p>Weekly Active Minutes: <span id="weeklyActiveMinutes"></span></p>
+        <p>Step Goal Achieved Today?: <span id="stepGoalAchievedToday"></span></p>
+        <p>Total Days Your Step Goal Was Met: <span id="stepGoalAchievedHistory"></span></p>
+        <p>All Time Stair Climbing Record?: <span id="stairClimbingRecord"></span></p>
+        <ul>All Weekly Activity
+          <li>Number of Steps: <span id="numSteps"></span></li>
+          <li>Minutes Active: <span id="minutesActive"></span></li>
+          <li>Flights Of Stairs Climbed <span id="flightsOfStairs"></span></li>
+        </ul>
+        <p>My Daily Steps Today: <span id="totalDailySteps"></span></p>
+        <p>Daily Step Average for All Users: <span id="allDailyStepAverages"></span></p>
+        <p>My Active Minutes Today: <span id="totalActiveMinutes"></span></p>
+        <p>Minutes Active Average for All Users: <span id="allMinutesActiveAverages"></span></p>
+        <p>My Stairs Climbed Today: <span id="totalStairsClimbed"></span></p>
+        <p>Flights of Stairs Climbed Average for All Users: <span id="allStairsClimbedAverages"></span></p>
+      </div>
+        <section class="sleep-calendar-section card" id="sleepCalendarSection">
           <label for="sleep-calendar">Update User's Data: </label>
           <input aria-label="Enter a date for individual data" class="date-input" id="dateInput" min="2019-06-15" max="2020-01-22" type="date" required>
           <button aria-label="show sleep data for date button"class="show-data-btn" id="showSleepButton">Update User Data</button>
           <button aria-label="reset"class="reset-data-btn" id="resetSleepButton">Reset Data</button>
         </section>
-        <div class="activity-card">
-          <p>Activity</p>
-          <p>Daily Miles Walked: <span id="dailyMilesWalked"></span></p>
-          <p>Total Active Minutes: <span id="totalActiveMinutes"></span></p>
-          <p>Weekly Active Minutes: <span id="weeklyActiveMinutes"></span></p>
-          <p>Step Goal Achieved Today?: <span id="stepGoalAchievedToday"></span></p>
-          <p>Total Days Your Step Goal Was Met: <span id="stepGoalAchievedHistory"></span></p>
-          <p>All Time Stair Climbing Record?: <span id="stairClimbingRecord"></span></p>
-          <p>All User Averages?: <span id="allUserAverages"></span></p>
-        </div>
     </section>
     <section class="charts">
       <section class="hydration-display">
