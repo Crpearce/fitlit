@@ -65,6 +65,36 @@
           <button aria-label="show sleep data for date button"class="show-data-btn" id="showSleepButton">Update User Data</button>
           <button aria-label="reset"class="reset-data-btn" id="resetSleepButton">Reset Data</button>
         </section>
+        <section class="pick-data" id="pickDataType">
+          <label for="data-type-slection">select data type:</label>
+          <select id="select1" name="data-type-selection" class="data-entry-type-selection" required>
+            <option class="sleep-data" value="sleep data">sleep data</option>
+            <option class="hydration-data" value="hydration data">hydration data</option>
+            <option class="activity-data" value="activity data">activity data</option>
+          </select>
+          <button class="select-data-btn" id="selectDataType">Select data type</button>
+        </section>
+        <article class="user-hydration-post-section hidden" id="hydrationPostSection"></sectionclass>
+          <label class="num-ounces" aria-label="enter ounces drank" for="numOunces">Ounces Drank(between 1 and 200):</label>
+          <input type="number" id="numOunces" name="quantity" min="1" max="200">
+         <button class="submit-data" id="submitData">Submit New Data</button>
+      </article>
+        <article class="user-sleep-post-section hidden" id="sleepPostSection"></sectionclass>
+          <label class="hours-slept" aria-label="enter hours slept" for="hoursSlept">Hours Slept (between 1 and 20):</label>
+          <input type="number" id="hoursSlept" name="quantity" min="1" max="20">
+          <label class="sleep-quality" aria-label="enter sleep quality" for="sleepQuality">Quality of Sleep (between 1 and 200):</label>
+          <input type="number" id="sleepQuality" name="quantity" min="1" max="10">
+        <button class="submit-data" id="submitData">Submit New Data</button>
+    </article>
+      <article class="user-activity-post-section hidden" id="activityPostSection"></sectionclass>
+        <label class="num-steps" aria-label="enter number of steps" for="numSteps">Number of Steps (between 1 and 20000):</label>
+        <input type="number" id="numSteps" name="quantity" min="1" max="20000">
+        <label class="minutes-active" aria-label="enter todays minutes active" for="minutesActive">Daily Active Minutes (between 1 and 400):</label>
+        <input type="number" id="minutesActive" name="quantity" min="1" max="400">
+        <label class="flights-of-stairs" aria-label="enter todays flights of stairs" for="flightsOfStairs">Todays Flights of Stairs (between 1 and 50):</label>
+        <input type="number" id="flightsOfStairs" name="quantity" min="1" max="50">
+      <button class="submit-data" id="submitData">Submit New Data</button>
+    </article>
     </section>
     <section class="charts">
       <section class="hydration-display">
