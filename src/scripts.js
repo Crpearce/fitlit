@@ -10,6 +10,29 @@ import ActivitiesRepository from './ActivitiesRepository';
 
 // QUERYSELECTORS
 const dateInput = document.querySelector(".date-input");
+let dataTypeSelection = document.querySelector(".data-entry-type-selection")
+let hydrationPostSection = document.querySelector("#hydrationPostSection")
+let sleepPostSection = document.querySelector("#sleepPostSection")
+let activityPostSection = document.querySelector("#activityPostSection")
+
+
+// ACTIVITY QUERYSELECTORS
+let dailyMiles = document.querySelector("#dailyMilesWalked")
+let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
+let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
+let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
+let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
+let numSteps = document.querySelector("#numSteps")
+let minutesActive = document.querySelector("#minutesActive")
+let flightsOfStairs = document.querySelector("#flightsOfStairs")
+let totalDailySteps = document.querySelector("#totalDailySteps")
+let allDailyStepsAvg = document.querySelector("#allDailyStepAverages") 
+let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
+let allMinutesActiveAvg = document.querySelector("#allMinutesActiveAverages")
+let totalStairsClimbed = document.querySelector("#totalStairsClimbed")
+let allStairsClimbedAvg = document.querySelector("#allStairsClimbedAverages")
+// SLEEP QUERYSELECTORS
+let sleepCard = document.querySelector('.sleep-card');
 let dailyHours = document.querySelector('#dailyHoursSlept')
 let dailyQuality = document.querySelector('#dailyQualityOfSleep')
 let avgHours = document.querySelector('#averageHoursSlept')
@@ -17,19 +40,12 @@ let avgQuality = document.querySelector("#averageSleepQuality")
 let weeklyHours = document.querySelector('#weeklyHoursSlept')
 let weeklyQuality = document.querySelector('#weeklySleepQuality')
 let allAvgQuality = document.querySelector('#allAverageSleepQuality')
-let sleepCard = document.querySelector('.sleep-card');
-let userCard = document.querySelector('.user-card');
-let userName = document.querySelector('#name')
-let userAddress = document.querySelector('#address')
-let userEmail = document.querySelector('#email')
-let userStride = document.querySelector('#stride')
-let userStepGoal = document.querySelector('#stepGoal')
-let userFriends = document.querySelector('#friends')
+
+// HYDRATION QUERYSELECTORS
 let hydroCard = document.querySelector('.hydration-card')
 let avgOunces = document.querySelector('#averageOuncesDrank')
 let dailyOunces = document.querySelector('#dailyOunces')
 let weeklyOunces = document.querySelector('#weeklyOunces')
-
 
 // GLOBAL VARIABLES
 let users;
@@ -66,6 +82,8 @@ const getFetch = () => {
 //  EventListeners
 window.addEventListener('load', getFetch);
 sleepCalendarSection.addEventListener("click", handleButtons);
+pickDataType.addEventListener("click", handleButtons);
+
 
 function handleButtons(event) {
     switch (event.target.className) {
@@ -78,9 +96,10 @@ function handleButtons(event) {
         displayHydrationInfo(event); 
         displaySleepInfo(event);
         displayActivityInfo(event);
-        // destroyChart(event)
-        // break;
-        // case "reset-sleep-btn":
+        break;
+      case "select-data-btn":
+        hideAllDataInput(event);
+        updatePostOptions(event);
         break;
       default:
         break;
@@ -126,29 +145,60 @@ const findActivityDate = () => {
 }
 
 const displayHydrationInfo = () => {
+    avgOunces.innerText = ``
+    dailyOunces.innerText = ``
+    weeklyOunces.innerText = ``
     avgOunces.innerText = `${hydroRepo.getUserAverageOunces(singleUser.id)} oz.`
     dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, findHydrationDate())} oz.`
     weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, findHydrationDate())} oz.`
 }
 
 const displayActivityInfo = () => {
-    let dailyMiles = document.querySelector("#dailyMilesWalked")
-    let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
-    let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
-    let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
-    let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
-    let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
+    dailyMiles.innerText = ``
+    dailyStepGoal.innerText = ``
+    weeklyMinuteAvg.innerText = ``
+    allTimeStepGoal.innerText = ``
+    allTimeStairRecord.innerText = ``
+    numSteps.innerText = ``
+    minutesActive.innerText = ``
+    flightsOfStairs.innerText = ``
+    totalDailySteps.innerText = ``
+    allDailyStepsAvg.innerText = ``
+    totalActiveMinutes.innerText = ``
+    allMinutesActiveAvg.innerText = ``
+    totalStairsClimbed.innerText = ``
+    allStairsClimbedAvg.innerText = ``
     dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength)}`
-    totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id)}`
     dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal)}`
     weeklyMinuteAvg.innerText = `${activityRepo.getWeeklyMinutesAvg(singleUser.id, findActivityDate())}`
     allTimeStepGoal.innerText = `${activityRepo.allTimeStepGoalAchievements(singleUser.id, singleUser.dailyStepGoal)}`
     allTimeStairRecord.innerText = `${activityRepo.allTimeStairClimbingRecord(singleUser.id)}`
-
-
+    numSteps.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'numSteps')}`
+    minutesActive.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'minutesActive')}`
+    flightsOfStairs.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'flightsOfStairs')}`
+    totalDailySteps.innerText = `${activityRepo.activityEachDay(singleUser.id, findActivityDate(), 'numSteps')}`
+    allDailyStepsAvg.innerText = `${activityRepo.allUsersAverageActivity('numSteps', findActivityDate())}`
+    totalActiveMinutes.innerText = `${activityRepo.activityEachDay(singleUser.id, findActivityDate(), 'minutesActive')}`
+    allMinutesActiveAvg.innerText = `${activityRepo.allUsersAverageActivity('minutesActive', findActivityDate())}`
+    totalStairsClimbed.innerText = `${activityRepo.activityEachDay(singleUser.id, findActivityDate(), 'flightsOfStairs')}`
+    allStairsClimbedAvg.innerText = `${activityRepo.allUsersAverageActivity('flightsOfStairs', findActivityDate())}`
  }
 
-
+ const hideAllDataInput = () => {
+    hide(hydrationPostSection)
+    hide(sleepPostSection)
+    hide(activityPostSection)
+ }
+ 
+ const updatePostOptions = () => {
+    if(dataTypeSelection.value === 'hydration data') {
+        show(hydrationPostSection)
+    } else if(dataTypeSelection.value === 'sleep data') {
+        show(sleepPostSection)
+    } else if(dataTypeSelection.value === 'activity data') {
+        show(activityPostSection)
+    }
+}
 
 const createCharts = () => {
     const hydroChart = document.getElementById('myHydroChart')
@@ -209,6 +259,9 @@ function updateConfigByMutating(chart) {
 
 const updateHydrationInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
+    avgOunces.innerText = ``
+    dailyOunces.innerText = ``
+    weeklyOunces.innerText = ``
     if (dateInput.value === "") { 
     hydroCard.innerHTML = `<div>
     Hydration Info
@@ -229,6 +282,13 @@ const updateHydrationInfo = () => {
 
 const displaySleepInfo = () => {
     dateInput.value = '';
+    dailyHours.innerText = ``
+    dailyQuality.innerText = ``
+    avgHours.innerText = ``
+    avgQuality.innerText = ``
+    weeklyHours.innerText = ``
+    weeklyQuality.innerText = ``
+    allAvgQuality.innerText = ``
     dailyHours.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'hoursSlept')}`
     dailyQuality.innerText = `${sleepRepo.sleepByDate(singleUser.id, 'sleepQuality')}`
     avgHours.innerText = `${sleepRepo.getSleepAverage(singleUser.id, 'hoursSlept')}`
@@ -241,6 +301,13 @@ const displaySleepInfo = () => {
 
 const updateSleepInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
+    dailyHours.innerText = ``
+    dailyQuality.innerText = ``
+    avgHours.innerText = ``
+    avgQuality.innerText = ``
+    weeklyHours.innerText = ``
+    weeklyQuality.innerText = ``
+    allAvgQuality.innerText = ``
     if (dateInput.value === "") { sleepCard.innerHTML = `<div>
     Sleep Info
     <br>
@@ -259,21 +326,44 @@ const updateSleepInfo = () => {
 
 const updateActivityInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
-    let dailyMiles = document.querySelector("#dailyMilesWalked")
-    let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
-    let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
-    let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
-    let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
-    let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
+    dailyMiles.innerText = ``
+    dailyStepGoal.innerText = ``
+    weeklyMinuteAvg.innerText = ``
+    allTimeStepGoal.innerText = ``
+    allTimeStairRecord.innerText = ``
+    numSteps.innerText = ``
+    minutesActive.innerText = ``
+    flightsOfStairs.innerText = ``
+    totalDailySteps.innerText = ``
+    allDailyStepsAvg.innerText = ``
+    totalActiveMinutes.innerText = ``
+    allMinutesActiveAvg.innerText = ``
+    totalStairsClimbed.innerText = ``
+    allStairsClimbedAvg.innerText = ``
     dailyMiles.innerText = `${activityRepo.getMilesWalked(singleUser.id, singleUser.strideLength, updateDate)}`
-    totalActiveMinutes.innerText = `${activityRepo.activeMinutesEachDay(singleUser.id, updateDate)}`
     dailyStepGoal.innerText = `${activityRepo.dailyStepGoalAchieved(singleUser.id, singleUser.dailyStepGoal, updateDate)}`
     weeklyMinuteAvg.innerText = `${activityRepo.getWeeklyMinutesAvg(singleUser.id, updateDate)}`
     allTimeStepGoal.innerText = `${activityRepo.allTimeStepGoalAchievements(singleUser.id, singleUser.dailyStepGoal)}`
     allTimeStairRecord.innerText = `${activityRepo.allTimeStairClimbingRecord(singleUser.id)}`
+    numSteps.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'numSteps')}`
+    minutesActive.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'minutesActive')}`
+    flightsOfStairs.innerText = `${activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'flightsOfStairs')}`
+    totalDailySteps.innerText = `${activityRepo.activityEachDay(singleUser.id, updateDate, 'numSteps')}`
+    allDailyStepsAvg.innerText = `${activityRepo.allUsersAverageActivity('numSteps', updateDate)}`
+    totalActiveMinutes.innerText = `${activityRepo.activityEachDay(singleUser.id, updateDate, 'minutesActive')}`
+    allMinutesActiveAvg.innerText = `${activityRepo.allUsersAverageActivity('minutesActive', updateDate)}`
+    totalStairsClimbed.innerText = `${activityRepo.activityEachDay(singleUser.id, updateDate, 'flightsOfStairs')}`
+    allStairsClimbedAvg.innerText = `${activityRepo.allUsersAverageActivity('flightsOfStairs', updateDate)}`
  }
- 
 
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
 }
+
+function show(event) {
+    event.classList.remove("hidden");
+  }
+  
+  function hide(event) {
+    event.classList.add("hidden");
+  }

@@ -22,12 +22,12 @@ h3 {
 .daily-steps {
   padding: 10px;
   margin: 10px;
-  border: 3px solid rgb(106, 74, 145);
+  border: 5px solid rgb(106, 74, 145);
   width: fit-content;
 }
 
 .user-info-cards {
-  display: grid;
+  display: flex;
   justify-content: center;
   word-wrap: normal;
 }
@@ -36,4 +36,8 @@ h3 {
   border: 2px solid rgb(180, 28, 117);
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
+}
+
+.hidden {
+  display: none
 }
