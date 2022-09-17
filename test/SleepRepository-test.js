@@ -131,6 +131,16 @@ describe("Sleep Repository", () => {
  it('Should have the quality of sleep per week', () => {
   expect(sleepRepository1.getWeeklySleepAvg(1, '2019/06/23', 'sleepQuality')).to.equal('4.66')
  })
+ it('Should return a array of daily hours slept for a given week', () => {
+  expect(sleepRepository1.getWeeklySleep(1, '2019/06/23', 'hoursSlept')).to.deep.equal(
+    [ 6.1, 10.1, 4.1, 8.1, 8.1, 7.1, 7.1 ]
+  )
+ })
+ it('Should return a array of daily hours slept for a given week', () => {
+  expect(sleepRepository1.getWeeklySleep(1, '2019/06/23', 'sleepQuality')).to.deep.equal(
+    [ 2.2, 5.2, 6.2, 6.2, 7.2, 3.2, 2.4 ]
+  )
+ })
  it('Should be able to get the average sleep quality for all users', () => {
   expect(sleepRepository1.allUsersAverageSleepQuality()).to.equal('3.70')
  })

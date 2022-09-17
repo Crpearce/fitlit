@@ -15,6 +15,13 @@ let hydrationPostSection = document.querySelector("#hydrationPostSection")
 let sleepPostSection = document.querySelector("#sleepPostSection")
 let activityPostSection = document.querySelector("#activityPostSection")
 
+// USER QUERYSELECTORS
+let userName = document.querySelector('#name')
+let userAddress = document.querySelector('#address')
+let userEmail = document.querySelector('#address')
+let userStride = document.querySelector('#stride')
+let userStepGoal = document.querySelector('#stepGoal')
+let userFriends = document.querySelector('#friends')
 
 // ACTIVITY QUERYSELECTORS
 let dailyMiles = document.querySelector("#dailyMilesWalked")
@@ -57,6 +64,9 @@ let hydration;
 let singleUser;
 let activity;
 let activityRepo;
+let mySleepChart = null
+let myHydroChart = null
+let myActivityChart = null
 const getFetch = () => {
     fetchAll()
     .then(data => {
@@ -75,7 +85,8 @@ const getFetch = () => {
         displayHydrationInfo();
         displaySleepInfo();
         displayActivityInfo();
-        createCharts();
+        // createSleepChart();
+        // createHydroChart();
     })
 };
 
@@ -115,13 +126,6 @@ const welcomeUser = () => {
 };
 
 const displayUserInfo = () => {
-    let userCard = document.querySelector('.user-card');
-    let userName = document.querySelector('#name')
-    let userAddress = document.querySelector('#address')
-    let userEmail = document.querySelector('#email')
-    let userStride = document.querySelector('#stride')
-    let userStepGoal = document.querySelector('#stepGoal')
-    let userFriends = document.querySelector('#friends')
     userName.innerText = `${singleUser.name}`
     userAddress.innerText = `${singleUser.address}`
     userEmail.innerText = `${singleUser.email}`
@@ -158,6 +162,40 @@ const displayHydrationInfo = () => {
     avgOunces.innerText = `${hydroRepo.getUserAverageOunces(singleUser.id)} oz.`
     dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, findHydrationDate())} oz.`
     weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, findHydrationDate())} oz.`
+
+    const hydroChart = document.getElementById('myHydroChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Ounces Drank Weekly',
+            data: hydroRepo.getWeeklyHydration(singleUser.id, findHydrationDate()),
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)'
+            ],
+            borderWidth: 1
+        }]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Ounces of Water Consumed in Past 7 Days",
+              }
+            }
+        }
+    }
+    if(myHydroChart != null) {
+        myHydroChart.destroy()
+    }
+    myHydroChart = new Chart(hydroChart, config)
 }
 
 const displayActivityInfo = () => {
@@ -189,6 +227,58 @@ const displayActivityInfo = () => {
     allMinutesActiveAvg.innerText = `${activityRepo.allUsersAverageActivity('minutesActive', findActivityDate())}`
     totalStairsClimbed.innerText = `${activityRepo.activityEachDay(singleUser.id, findActivityDate(), 'flightsOfStairs')}`
     allStairsClimbedAvg.innerText = `${activityRepo.allUsersAverageActivity('flightsOfStairs', findActivityDate())}`
+    // 'rgba(54, 162, 235, 1)'
+    const activityChart = document.getElementById('myActivityChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Weekly Number of Steps',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'numSteps'),
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Weekly Number of Minutes Active',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'minutesActive'),
+            backgroundColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Weekly Number for Flights of Stairs Climbed',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'flightsOfStairs'),
+            backgroundColor: [
+                'rgba(54, 453, 620, 1)',
+            ],
+            borderWidth: 1
+        },
+    ]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Activity Over the Last 7 Days",
+              }
+            }
+        },
+        maintainAspectRatio: true
+    }
+    if(myActivityChart != null) {
+        myActivityChart.destroy()
+    }
+    myActivityChart = new Chart(activityChart, config)
  }
 
  const hideAllDataInput = () => {
@@ -207,63 +297,6 @@ const displayActivityInfo = () => {
     }
 }
 
-const createCharts = () => {
-    const hydroChart = document.getElementById('myHydroChart')
-    const sleepChart = document.getElementById('mySleepChart')
-    const displayHydroChart = new Chart(hydroChart, {
-        type: 'bar',
-        data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-            datasets: [{
-                label: 'Ounces Drank Weekly',
-                data: hydroRepo.getWeeklyHydration(singleUser.id, findHydrationDate()),
-                backgroundColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                
-            },
-            maintainAspectRatio: false
-        },
-    })
-    const displaySleepChart = new Chart(sleepChart, {
-        type: 'bar',
-        data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-            datasets: [{
-                label: 'Sleep Quality',
-                data: sleepRepo.getWeeklySleep(singleUser.id, findSleepDate(), 'sleepQuality'),
-                backgroundColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Hours Slept',
-                data: sleepRepo.getWeeklySleep(singleUser.id, findSleepDate(), 'hoursSlept'),
-                backgroundColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-
-            },
-            maintainAspectRatio: false
-        }
-
-    })
-}
-
-function updateConfigByMutating(chart) {
-    chart.options.plugins.title.text = 'new title';
-    chart.update();
-}
-
-
 const updateHydrationInfo = () => {
     let updateDate = dateInput.value.split('-').join('/');
     avgOunces.innerText = ``
@@ -280,11 +313,43 @@ const updateHydrationInfo = () => {
     dailyOunces.innerText = `${hydroRepo.ouncesConsumedByDate(singleUser.id, updateDate)} oz.`
     weeklyOunces.innerText = `${hydroRepo.getWeeklyHydration(singleUser.id, updateDate)} oz.`
     
-    // NEED TO GET CHART DATA TO UPDATE WITH CALENDAR EVENT
-    // putting a new chart in the updateHydration function does not create a new chart, nor does it update the chart data with the selection of a new date on the calendar
-    // maybe we make another chart that is hidden initially?, an updateHydroChart, and try and show that, hide the original, when the click event happens with the calendar?
-}
+    const hydroChart = document.getElementById('myHydroChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Ounces Drank Weekly',
+            data: hydroRepo.getWeeklyHydration(singleUser.id, updateDate),
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        }]
     }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Ounces of Water Consumed in Past 7 Days",
+              }
+            }
+        },
+        maintainAspectRatio: true
+    }
+    if(myHydroChart != null) {
+        myHydroChart.destroy()
+    }
+    myHydroChart = new Chart(hydroChart, config)
+}
+}
 
 
 const displaySleepInfo = () => {
@@ -303,6 +368,46 @@ const displaySleepInfo = () => {
     weeklyHours.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findSleepDate(), 'hoursSlept')}`
     weeklyQuality.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, findSleepDate(), 'sleepQuality')}`
     allAvgQuality.innerText = `${sleepRepo.allUsersAverageSleepQuality()}`
+
+    const sleepChart = document.getElementById('mySleepChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Weekly Sleep Quality',
+            data: sleepRepo.getWeeklySleepAvg(singleUser.id, findSleepDate(), 'sleepQuality'),
+            backgroundColor: [
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Hours Slept',
+            data: sleepRepo.getWeeklySleep(singleUser.id, findSleepDate(), 'hoursSlept'),
+            backgroundColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Weekly Sleep Data",
+              }
+            }
+        }
+    }
+    if(mySleepChart != null) {
+        mySleepChart.destroy()
+    }
+    mySleepChart = new Chart(sleepChart, config)
 }
 
 
@@ -329,6 +434,46 @@ const updateSleepInfo = () => {
         weeklyQuality.innerText = `${sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'sleepQuality')}`
         allAvgQuality.innerText = `${sleepRepo.allUsersAverageSleepQuality()}`
     }
+
+    const sleepChart = document.getElementById('mySleepChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Weekly Sleep Quality',
+            data: sleepRepo.getWeeklySleepAvg(singleUser.id, updateDate, 'sleepQuality'),
+            backgroundColor: [
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Hours Slept',
+            data: sleepRepo.getWeeklySleep(singleUser.id, updateDate, 'hoursSlept'),
+            backgroundColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Weekly Sleep Data",
+              }
+            }
+        }
+    }
+    if(mySleepChart != null) {
+        mySleepChart.destroy()
+    }
+    mySleepChart = new Chart(sleepChart, config)
 };
 
 const updateActivityInfo = () => {
@@ -361,6 +506,58 @@ const updateActivityInfo = () => {
     allMinutesActiveAvg.innerText = `${activityRepo.allUsersAverageActivity('minutesActive', updateDate)}`
     totalStairsClimbed.innerText = `${activityRepo.activityEachDay(singleUser.id, updateDate, 'flightsOfStairs')}`
     allStairsClimbedAvg.innerText = `${activityRepo.allUsersAverageActivity('flightsOfStairs', updateDate)}`
+
+    const activityChart = document.getElementById('myActivityChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Weekly Number of Steps',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'numSteps'),
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Weekly Number of Minutes Active',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'minutesActive'),
+            backgroundColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Weekly Number for Flights of Stairs Climbed',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'flightsOfStairs'),
+            backgroundColor: [
+                'rgba(54, 453, 620, 1)',
+            ],
+            borderWidth: 1
+        },
+    ]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Activity Over the Last 7 Days",
+              }
+            }
+        },
+        maintainAspectRatio: true
+    }
+    if(myActivityChart != null) {
+        myActivityChart.destroy()
+    }
+    myActivityChart = new Chart(activityChart, config)
  }
 
 const getRandomUser = () => {
