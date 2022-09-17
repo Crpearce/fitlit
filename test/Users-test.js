@@ -48,11 +48,6 @@ describe("User", () => {
   it("Should be able to greet the user", () => {
     expect(user.returnUserName()).to.equal("Welcome Luisa!");
   });
-
-//   it('Should be able to return friend names', () => {
-//     console.log(user.friends)
-//     expect(user.friendNames.length).to.equal(3)
-//     expect(user.friendNames).to.deep.equal(["Garnett Cruickshank", "Mae Connelly", "Laney Abshire"])
-//   })
   
 });
+
