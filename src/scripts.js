@@ -2,6 +2,7 @@ import './css/styles.css';
 import './images/turing-logo.png'
 import UserRepository from './UserRepository';
 import User from './User';
+import Hydration from './Hydration';
 import { fetchAll } from './apiCalls';
 import HydrationRepository from './HydrationRepository';
 import SleepRepository from './SleepRepository';
@@ -14,6 +15,7 @@ let dataTypeSelection = document.querySelector(".data-entry-type-selection")
 let hydrationPostSection = document.querySelector("#hydrationPostSection")
 let sleepPostSection = document.querySelector("#sleepPostSection")
 let activityPostSection = document.querySelector("#activityPostSection")
+let postErrorMessage = document.querySelector('.post-error-message')
 
 // USER QUERYSELECTORS
 let userName = document.querySelector('#name')
@@ -29,15 +31,16 @@ let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
 let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
 let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
 let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
-let numSteps = document.querySelector("#numSteps")
-let minutesActive = document.querySelector("#minutesActive")
-let flightsOfStairs = document.querySelector("#flightsOfStairs")
+let numSteps = document.querySelector("#numberOfSteps")
+let minutesActive = document.querySelector("#minutesOfDayActive")
+let flightsOfStairs = document.querySelector("#dailyFlightsOfStairs")
 let totalDailySteps = document.querySelector("#totalDailySteps")
 let allDailyStepsAvg = document.querySelector("#allDailyStepAverages") 
 let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
 let allMinutesActiveAvg = document.querySelector("#allMinutesActiveAverages")
 let totalStairsClimbed = document.querySelector("#totalStairsClimbed")
 let allStairsClimbedAvg = document.querySelector("#allStairsClimbedAverages")
+
 // SLEEP QUERYSELECTORS
 let sleepCard = document.querySelector('.sleep-card');
 let dailyHours = document.querySelector('#dailyHoursSlept')
@@ -53,6 +56,7 @@ let hydroCard = document.querySelector('.hydration-card')
 let avgOunces = document.querySelector('#averageOuncesDrank')
 let dailyOunces = document.querySelector('#dailyOunces')
 let weeklyOunces = document.querySelector('#weeklyOunces')
+let numberOunces = document.querySelector('#numOunces')
 
 // GLOBAL VARIABLES
 let users;
@@ -79,22 +83,22 @@ const getFetch = () => {
         hydroRepo = new HydrationRepository(hydration);
         sleepRepo = new SleepRepository(sleep);
         activityRepo = new ActivitiesRepository(activity)
-        console.log(userRepo)
         welcomeUser();
         displayUserInfo();
         displayHydrationInfo();
         displaySleepInfo();
         displayActivityInfo();
-        // createSleepChart();
-        // createHydroChart();
     })
 };
+
 
 //  EventListeners
 window.addEventListener('load', getFetch);
 sleepCalendarSection.addEventListener("click", handleButtons);
 pickDataType.addEventListener("click", handleButtons);
-
+hydrationPostSection.addEventListener("click", handleButtons);
+sleepPostSection.addEventListener("click", handleButtons);
+activityPostSection.addEventListener("click", handleButtons);
 
 function handleButtons(event) {
     switch (event.target.className) {
@@ -112,10 +116,17 @@ function handleButtons(event) {
         hideAllDataInput(event);
         updatePostOptions(event);
         break;
+      case "submit-data-btn":
+        postHydrationData(event)
+        // postSleepData(event)
+        // postActivityData(event)
+        break;
       default:
         break;
     }
   };
+
+
 
 const welcomeUser = () => {
     let greeting = document.querySelector('.welcome-customer');
@@ -153,6 +164,37 @@ const findActivityDate = () => {
     let allActivityData = activityRepo.activityData.filter(user => user.userID === id);
     const getDates = allActivityData.map(user => user.date).pop();
     return getDates;
+}
+
+
+const postHydrationData = (event) => {
+    console.log(singleUser.id)
+    if(dataTypeSelection.value === 'hydration data'){
+        let date = '2022/01/23'
+        hydroRepo = new HydrationRepository(hydration);
+        fetch("http://localhost:3001/api/v1/hydration", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userID: singleUser.id,
+              date: date,
+              numOunces: numberOunces.value,
+            }),
+        })
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "There was an error adding your Hydration Data, please retry later"
+              );
+            } else {
+              return response.json();
+            }
+          })
+          .then(() => getFetch())
+          .catch((err) => {
+            postErrorMessage.innerText = 'Error updating data, please retry later'
+          });
+    }
 }
 
 const displayHydrationInfo = () => {
