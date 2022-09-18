@@ -15,12 +15,15 @@ class HydrationRepository {
      }
    
      ouncesConsumedByDate = (id, selectedDate) => {
+      console.log(selectedDate)
         let userHydration = this.getUserHydrationById(id);
         if(!selectedDate) {
           let findDate = userHydration.map(hydrationObj => hydrationObj.date).pop()
           let todayOunces = userHydration.find(hydrationObj => hydrationObj.date === findDate)
           return todayOunces.numOunces
-        } else {
+        } else if(selectedDate === 'undefined'){
+          return 'NO DATA FOR SELECTED DATE'
+        }else {
           let todayOunces = userHydration.find(hydrationObj => hydrationObj.date === selectedDate)
           return todayOunces.numOunces
         }
