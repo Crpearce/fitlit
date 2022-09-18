@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Fitlit</title>
-  </head>
-  <body>
-    <h1>Activity Tracker</h1>
-    <nav class="navigation">
-      <section class="welcome">
-        <h1 class='welcome-customer'>Welcome</h1>
-      </section>
-      <section class="daily-steps">Daily Steps: </section>
-    </nav>
-    <section class="user-info-cards">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Fitlit</title>
+</head>
+
+<body>
+  <h1>Activity Tracker</h1>
+  <nav class="navigation hidden">
+    <section class="welcome">
+      <h1 class='welcome-customer'>Welcome</h1>
+    </section>
+    <section class="daily-steps">Daily Steps: </section>
+  </nav>
+  <main class="main-section hidden">
+    <div class="user-info-cards">
       <div class="user-card card">
         <p>User Info</p>
         <p>Name: <span id='name'></span></p>
@@ -29,9 +32,9 @@
         <p>Average Ounces Drank: <span id="averageOuncesDrank"></span></p>
         <p>Water Consumed Today: <span id="dailyOunces"></span></p>
         <p>Ounces Consumed This Week: <span id="weeklyOunces"></span></span></p>
-        </div>
+      </div>
       <div class="sleep-card card">
-        <p>Sleep Info</p> 
+        <p>Sleep Info</p>
         <p>Daily Hours Slept: <span id="dailyHoursSlept"></span></p>
         <p>Daily Quality of Sleep: <span id="dailyQualityOfSleep"></span></p>
         <p>Average Hours Slept: <span id="averageHoursSlept"></span></p>
@@ -47,11 +50,11 @@
         <p>Step Goal Achieved Today?: <span id="stepGoalAchievedToday"></span></p>
         <p>Total Days Your Step Goal Was Met: <span id="stepGoalAchievedHistory"></span></p>
         <p>All Time Stair Climbing Record?: <span id="stairClimbingRecord"></span></p>
-        <ul>All Weekly Activity
-          <li>Number of Steps: <span id="numSteps"></span></li>
-          <li>Minutes Active: <span id="minutesActive"></span></li>
-          <li>Flights Of Stairs Climbed <span id="flightsOfStairs"></span></li>
-        </ul>
+        <p>All Weekly Activity
+          <p>Number of Steps: <span id="numberOfSteps"></span></p>
+          <p>Minutes Active: <span id="minutesOfDayActive"></span></p>
+          <p>Flights Of Stairs Climbed <span id="dailyFlightsOfStairs"></span></p>
+        </p>
         <p>My Daily Steps Today: <span id="totalDailySteps"></span></p>
         <p>Daily Step Average for All Users: <span id="allDailyStepAverages"></span></p>
         <p>My Active Minutes Today: <span id="totalActiveMinutes"></span></p>
@@ -59,43 +62,47 @@
         <p>My Stairs Climbed Today: <span id="totalStairsClimbed"></span></p>
         <p>Flights of Stairs Climbed Average for All Users: <span id="allStairsClimbedAverages"></span></p>
       </div>
-        <section class="sleep-calendar-section card" id="sleepCalendarSection">
-          <label for="sleep-calendar">Update User's Data: </label>
-          <input aria-label="Enter a date for individual data" class="date-input" id="dateInput" min="2019-06-15" max="2020-01-22" type="date" required>
-          <button aria-label="show sleep data for date button"class="show-data-btn" id="showSleepButton">Update User Data</button>
-          <button aria-label="reset"class="reset-data-btn" id="resetSleepButton">Reset Data</button>
+      <section class="sleep-calendar-section card" id="sleepCalendarSection">
+        <label for="sleep-calendar">Update User's Data: </label>
+        <input aria-label="Enter a date for individual data" class="date-input" id="dateInput" min="2019-06-15" max="2022-01-23" type="date" required>
+        <button aria-label="show sleep data for date button" class="show-data-btn" id="showSleepButton">Update User Data</button>
+        <button aria-label="reset" class="reset-data-btn" id="resetSleepButton">Reset Data</button>
+        <p><span class="post-error-message" id="postErrorMessage"></span></p>
+      </section>
+      <section class="pick-data" id="pickDataType">
+        <label for="data-type-slection">select data type:</label>
+        <select id="select1" name="data-type-selection" class="data-entry-type-selection" required>
+          <option class="sleep-data" value="sleep data">sleep data</option>
+          <option class="hydration-data" value="hydration data">hydration data</option>
+          <option class="activity-data" value="activity data">activity data</option>
+        </select>
+        <button class="select-data-btn" id="selectDataType">Select data type</button>
+      </section>
+      <article class="user-hydration-post-section hidden" id="hydrationPostSection">
         </section>
-        <section class="pick-data" id="pickDataType">
-          <label for="data-type-slection">select data type:</label>
-          <select id="select1" name="data-type-selection" class="data-entry-type-selection" required>
-            <option class="sleep-data" value="sleep data">sleep data</option>
-            <option class="hydration-data" value="hydration data">hydration data</option>
-            <option class="activity-data" value="activity data">activity data</option>
-          </select>
-          <button class="select-data-btn" id="selectDataType">Select data type</button>
-        </section>
-        <article class="user-hydration-post-section hidden" id="hydrationPostSection"></sectionclass>
-          <label class="num-ounces" aria-label="enter ounces drank" for="numOunces">Ounces Drank(between 1 and 200):</label>
-          <input type="number" id="numOunces" name="quantity" min="1" max="200">
-         <button class="submit-data" id="submitData">Submit New Data</button>
+        <label class="num-ounces" aria-label="enter ounces drank" for="numOunces">Ounces Drank(between 1 and 200):</label>
+        <input type="number" id="numOunces" name="quantity" min="1" max="200">
+        <button class="submit-data-btn" id="submitData">Submit New Data</button>
       </article>
-        <article class="user-sleep-post-section hidden" id="sleepPostSection"></sectionclass>
-          <label class="hours-slept" aria-label="enter hours slept" for="hoursSlept">Hours Slept (between 1 and 20):</label>
-          <input type="number" id="hoursSlept" name="quantity" min="1" max="20">
-          <label class="sleep-quality" aria-label="enter sleep quality" for="sleepQuality">Quality of Sleep (between 1 and 200):</label>
-          <input type="number" id="sleepQuality" name="quantity" min="1" max="10">
-        <button class="submit-data" id="submitData">Submit New Data</button>
-    </article>
-      <article class="user-activity-post-section hidden" id="activityPostSection"></sectionclass>
+      <article class="user-sleep-post-section hidden" id="sleepPostSection">
+        </section>
+        <label class="hours-slept" aria-label="enter hours slept" for="hoursSlept">Hours Slept (between 1 and 20):</label>
+        <input type="number" id="hoursSlept" name="quantity" min="1" max="20">
+        <label class="sleep-quality" aria-label="enter sleep quality" for="sleepQuality">Quality of Sleep (between 1 and 200):</label>
+        <input type="number" id="sleepQuality" name="quantity" min="1" max="10">
+        <button class="submit-data-btn" id="submitData">Submit New Data</button>
+      </article>
+      <article class="user-activity-post-section hidden" id="activityPostSection">
+        </section>
         <label class="num-steps" aria-label="enter number of steps" for="numSteps">Number of Steps (between 1 and 20000):</label>
-        <input type="number" id="numSteps" name="quantity" min="1" max="20000">
+        <input type="number" id="steps" name="quantity" min="1" max="20000">
         <label class="minutes-active" aria-label="enter todays minutes active" for="minutesActive">Daily Active Minutes (between 1 and 400):</label>
-        <input type="number" id="minutesActive" name="quantity" min="1" max="400">
+        <input type="number" id="minutes" name="quantity" min="1" max="400">
         <label class="flights-of-stairs" aria-label="enter todays flights of stairs" for="flightsOfStairs">Todays Flights of Stairs (between 1 and 50):</label>
-        <input type="number" id="flightsOfStairs" name="quantity" min="1" max="50">
-      <button class="submit-data" id="submitData">Submit New Data</button>
-    </article>
-    </section>
+        <input type="number" id="stairs" name="quantity" min="1" max="50">
+        <button class="submit-data-btn" id="submitData">Submit New Data</button>
+      </article>
+    </div>
     <section class="charts">
       <section class="hydration-display">
         <div>
@@ -118,8 +125,22 @@
         </div>
       </section>
     </section>
+  </main>
+  <section class="login" id="loginSection">
+    <form accept-charset="">
+      <div class="login-container">
+        <h2 class="login-greeting">Welcome to Fitlit!</h2>
+        <label class="username-text" aria-label="enter username" for="username"><b>Username</b></label>
+        <input class="username" id="username" type="text" placeholder="Username goes here" name="username" required>
+        <label class="password-text" aria-label="enter password" for="psw"><b>Password</b></label>
+        <input class="password" id="password" type="password" placeholder="Password goes here" name="password" required>
+        <button class="login-btn" id="loginBtn">Login</button>
+        <p id="loginError"></p>
+      </div>
+    </form>
+  </section>
+  <!-- Do not include the scripts.js file here - it is done automatically by the webpack server -->
+  <script src="bundle.js"></script>
+</body>
 
-<!-- Do not include the scripts.js file here - it is done automatically by the webpack server -->
-    <script src="bundle.js"></script>
-  </body>
 </html>

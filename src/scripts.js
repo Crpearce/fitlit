@@ -2,6 +2,7 @@ import './css/styles.css';
 import './images/turing-logo.png'
 import UserRepository from './UserRepository';
 import User from './User';
+import Hydration from './Hydration';
 import { fetchAll } from './apiCalls';
 import HydrationRepository from './HydrationRepository';
 import SleepRepository from './SleepRepository';
@@ -14,14 +15,23 @@ let dataTypeSelection = document.querySelector(".data-entry-type-selection")
 let hydrationPostSection = document.querySelector("#hydrationPostSection")
 let sleepPostSection = document.querySelector("#sleepPostSection")
 let activityPostSection = document.querySelector("#activityPostSection")
+let postErrorMessage = document.querySelector('.post-error-message')
+let username = document.querySelector('.username')
+let password = document.querySelector('.password')
+let mainSection = document.querySelector('.main-section')
+let loginError = document.querySelector('#loginError')
+let navBar = document.querySelector('.navigation')
+let loginContainer = document.querySelector('.login-container')
 
 // USER QUERYSELECTORS
 let userName = document.querySelector('#name')
 let userAddress = document.querySelector('#address')
-let userEmail = document.querySelector('#address')
+let userEmail = document.querySelector('#email')
 let userStride = document.querySelector('#stride')
 let userStepGoal = document.querySelector('#stepGoal')
 let userFriends = document.querySelector('#friends')
+let userInfoCards = document.querySelector('.user-info-cards')
+let allCharts = document.querySelector('.charts')
 
 // ACTIVITY QUERYSELECTORS
 let dailyMiles = document.querySelector("#dailyMilesWalked")
@@ -29,15 +39,19 @@ let dailyStepGoal = document.querySelector("#stepGoalAchievedToday")
 let weeklyMinuteAvg = document.querySelector("#weeklyActiveMinutes")
 let allTimeStepGoal = document.querySelector("#stepGoalAchievedHistory")
 let allTimeStairRecord = document.querySelector("#stairClimbingRecord")
-let numSteps = document.querySelector("#numSteps")
-let minutesActive = document.querySelector("#minutesActive")
-let flightsOfStairs = document.querySelector("#flightsOfStairs")
+let numSteps = document.querySelector("#numberOfSteps")
+let minutesActive = document.querySelector("#minutesOfDayActive")
+let flightsOfStairs = document.querySelector("#dailyFlightsOfStairs")
 let totalDailySteps = document.querySelector("#totalDailySteps")
 let allDailyStepsAvg = document.querySelector("#allDailyStepAverages") 
 let totalActiveMinutes = document.querySelector('#totalActiveMinutes')
 let allMinutesActiveAvg = document.querySelector("#allMinutesActiveAverages")
 let totalStairsClimbed = document.querySelector("#totalStairsClimbed")
 let allStairsClimbedAvg = document.querySelector("#allStairsClimbedAverages")
+let steps = document.querySelector("#steps")
+let minutes = document.querySelector("#minutes")
+let stairs = document.querySelector("#stairs")
+
 // SLEEP QUERYSELECTORS
 let sleepCard = document.querySelector('.sleep-card');
 let dailyHours = document.querySelector('#dailyHoursSlept')
@@ -47,12 +61,15 @@ let avgQuality = document.querySelector("#averageSleepQuality")
 let weeklyHours = document.querySelector('#weeklyHoursSlept')
 let weeklyQuality = document.querySelector('#weeklySleepQuality')
 let allAvgQuality = document.querySelector('#allAverageSleepQuality')
+let hoursSlept = document.querySelector('#hoursSlept')
+let sleepQuality = document.querySelector('#sleepQuality')
 
 // HYDRATION QUERYSELECTORS
 let hydroCard = document.querySelector('.hydration-card')
 let avgOunces = document.querySelector('#averageOuncesDrank')
 let dailyOunces = document.querySelector('#dailyOunces')
 let weeklyOunces = document.querySelector('#weeklyOunces')
+let numberOunces = document.querySelector('#numOunces')
 
 // GLOBAL VARIABLES
 let users;
@@ -67,6 +84,7 @@ let activityRepo;
 let mySleepChart = null
 let myHydroChart = null
 let myActivityChart = null
+let myStepChart = null
 const getFetch = () => {
     fetchAll()
     .then(data => {
@@ -75,18 +93,9 @@ const getFetch = () => {
         hydration = data[2].hydrationData;
         activity = data[3].activityData
         userRepo = new UserRepository(users);
-        singleUser = new User(users[getRandomUser()]);
         hydroRepo = new HydrationRepository(hydration);
         sleepRepo = new SleepRepository(sleep);
         activityRepo = new ActivitiesRepository(activity)
-        console.log(userRepo)
-        welcomeUser();
-        displayUserInfo();
-        displayHydrationInfo();
-        displaySleepInfo();
-        displayActivityInfo();
-        // createSleepChart();
-        // createHydroChart();
     })
 };
 
@@ -94,7 +103,10 @@ const getFetch = () => {
 window.addEventListener('load', getFetch);
 sleepCalendarSection.addEventListener("click", handleButtons);
 pickDataType.addEventListener("click", handleButtons);
-
+hydrationPostSection.addEventListener("click", handleButtons);
+sleepPostSection.addEventListener("click", handleButtons);
+activityPostSection.addEventListener("click", handleButtons);
+loginSection.addEventListener("click", handleButtons)
 
 function handleButtons(event) {
     switch (event.target.className) {
@@ -102,6 +114,7 @@ function handleButtons(event) {
         updateHydrationInfo(event);
         updateSleepInfo(event);
         updateActivityInfo(event);
+        updateStepChart(event)
         break;
       case "reset-data-btn":
         displayHydrationInfo(event); 
@@ -112,20 +125,62 @@ function handleButtons(event) {
         hideAllDataInput(event);
         updatePostOptions(event);
         break;
+      case "submit-data-btn":
+        postHydrationData(event)
+        postSleepData(event)
+        postActivityData(event)
+        break;
+        case "login-btn":
+        verifyLogin(event)
+            break;
       default:
         break;
     }
   };
 
-const welcomeUser = () => {
+  function verifyLogin(event) {
+    event.preventDefault();
+    if (username.value === "" || password.value === "") {
+      loginError.innerText = `PLEASE SUBMIT BOTH USERNAME AND PASSWORD!`;
+    } else if (password.value !== "fitlit2022") {
+      loginError.innerText = `INCORRECT PASSWORD!`;
+    } else if (!username.value.includes("user")) {
+      loginError.innerText = `USERNAME DOES NOT EXIST! PLEASE TRY AGAIN.`;
+    } else {
+      loginError.innerText = '';
+      showUserView();
+      welcomeUser();
+      hide(loginContainer)
+    }
+  }
+
+  const welcomeUser = () => {
+    let userID = parseInt(username.value.slice(4, username.value.length));
+    singleUser = new User(users[userID - 1])
     let greeting = document.querySelector('.welcome-customer');
     greeting.innerText = `${singleUser.returnUserName()}`;
     let steps = document.querySelector('.daily-steps');
     steps.innerText = `${singleUser.name.split(" ")[0]}'s Steps: ${singleUser.dailyStepGoal}
     Group Average: ${userRepo.allUsersAverageSteps()}`;
-};
+    displayUserInfo()
+    displayHydrationInfo();
+    displaySleepInfo();
+    displayActivityInfo();
+    displayStepChart()
+  };
+
+const showUserView = () => {
+    show(mainSection)
+    show(navBar)
+}
 
 const displayUserInfo = () => {
+    userName.innerText = ``
+    userAddress.innerText = ``
+    userEmail.innerText = ``
+    userStride.innerText = ``
+    userStepGoal.innerText = ``
+    userFriends.innerText = ``
     userName.innerText = `${singleUser.name}`
     userAddress.innerText = `${singleUser.address}`
     userEmail.innerText = `${singleUser.email}`
@@ -153,6 +208,99 @@ const findActivityDate = () => {
     let allActivityData = activityRepo.activityData.filter(user => user.userID === id);
     const getDates = allActivityData.map(user => user.date).pop();
     return getDates;
+}
+
+const postHydrationData = (event) => {
+    if(dataTypeSelection.value === 'hydration data'){
+        let date = '2022/01/23'
+        hydroRepo = new HydrationRepository(hydration);
+        fetch("http://localhost:3001/api/v1/hydration", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userID: singleUser.id,
+              date: date,
+              numOunces: numberOunces.value
+            }),
+        })
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "There was an error adding your Hydration Data, please retry later"
+              );
+            } else {
+              return response.json();
+            }
+          })
+          .then(() => getFetch())
+          .then(() => displayHydrationInfo())
+          .catch((err) => {
+            postErrorMessage.innerText = 'Error updating data, please retry later'
+          });
+    }
+}
+
+const postSleepData = (event) => {
+    if(dataTypeSelection.value === 'sleep data'){
+        let date = '2022/01/23'
+        sleepRepo = new SleepRepository(sleep);
+        fetch("http://localhost:3001/api/v1/sleep", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userID: singleUser.id,
+              date: date,
+              hoursSlept: hoursSlept.value,
+              sleepQuality: sleepQuality.value
+            }),
+        })
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "There was an error adding your Sleep Data, please retry later"
+              );
+            } else {
+              return response.json();
+            }
+          })
+          .then(() => getFetch())
+          .then(() => displaySleepInfo())
+          .catch((err) => {
+            postErrorMessage.innerText = 'Error updating data, please retry later'
+          });
+    }
+}
+
+const postActivityData = (event) => {
+    if(dataTypeSelection.value === 'activity data'){
+        let date = '2022/01/23'
+        activityRepo = new ActivitiesRepository(activity);
+        fetch("http://localhost:3001/api/v1/activity", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userID: singleUser.id,
+              date: date,
+              numSteps: steps.value,
+              minutesActive: minutes.value,
+              flightsOfStairs: stairs.value
+            }),
+        })
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "There was an error adding your Activity Data, please retry later"
+              );
+            } else {
+              return response.json();
+            }
+          })
+          .then(() => getFetch())
+          .then(() => displayActivityInfo())
+          .catch((err) => {
+            postErrorMessage.innerText = 'Error updating data, please retry later'
+          });
+    }
 }
 
 const displayHydrationInfo = () => {
@@ -232,14 +380,7 @@ const displayActivityInfo = () => {
     const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
     const data = {
         labels: labels,
-        datasets: [{
-            label: 'Weekly Number of Steps',
-            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'numSteps'),
-            backgroundColor: [
-                'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1
-        },
+        datasets: [
         {
             label: 'Weekly Number of Minutes Active',
             data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'minutesActive'),
@@ -348,7 +489,7 @@ const updateHydrationInfo = () => {
         myHydroChart.destroy()
     }
     myHydroChart = new Chart(hydroChart, config)
-}
+    }
 }
 
 
@@ -511,14 +652,7 @@ const updateActivityInfo = () => {
     const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
     const data = {
         labels: labels,
-        datasets: [{
-            label: 'Weekly Number of Steps',
-            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'numSteps'),
-            backgroundColor: [
-                'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1
-        },
+        datasets: [
         {
             label: 'Weekly Number of Minutes Active',
             data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'minutesActive'),
@@ -558,16 +692,88 @@ const updateActivityInfo = () => {
         myActivityChart.destroy()
     }
     myActivityChart = new Chart(activityChart, config)
+}
+
+ const displayStepChart = () => {
+    const stepChart = document.getElementById('myStepChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Weekly Number of Steps',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, findActivityDate(), 'numSteps'),
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Activity Over the Last 7 Days",
+              }
+            }
+        },
+        maintainAspectRatio: true
+    }
+    if(myStepChart != null) {
+        myStepChart.destroy()
+    }
+    myStepChart = new Chart(stepChart, config)
+ }
+ const updateStepChart = () => {
+    let updateDate = dateInput.value.split('-').join('/');
+    const stepChart = document.getElementById('myStepChart')
+    const labels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Weekly Number of Steps',
+            data: activityRepo.getAllThreeWeeklyActivity(singleUser.id, updateDate, 'numSteps'),
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }
+    ]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 12,
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: "Steps Over the Last 7 Days",
+              }
+            }
+        },
+        maintainAspectRatio: true
+    }
+    if(myStepChart != null) {
+        myStepChart.destroy()
+    }
+    myStepChart = new Chart(stepChart, config)
  }
 
 const getRandomUser = () => {
     return Math.floor(Math.random() * 49) + 1;
 }
 
-function show(event) {
-    event.classList.remove("hidden");
-  }
+const show = (event) => event.classList.remove("hidden");
+    
+const hide = (event) => event.classList.add("hidden");
   
-  function hide(event) {
-    event.classList.add("hidden");
-  }
