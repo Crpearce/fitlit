@@ -16,6 +16,12 @@ Ever wanted to track and maintain your own sleep and hydration data? Use this re
 1. Make sure both members of your team are collaborators on the forked repo.  
 1. Do not run `npm audit fix --force`.  This will update to the latest version of packages.  We need to be using `webpack-dev-server@3.11.2` which is not the latest version.  If you start to run into Webpack errors, first check that all group members are using the correct version.  
 
+## Login
+1. To login to the dashboard view for a user, please use the current username and password format.
+
+`username: user50 (where 50 is the ID of the user, users 1 - 50 should be acccessable)
+password: fitlit2022`
+
 ## Testing
 
 There is no boilerplate for testing in this starter-kit repo. You will need to set this up yourself. However, if you ran `npm install`, then the tooling you need to start testing is already installed (`mocha` and `chai`).
