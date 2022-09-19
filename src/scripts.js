@@ -769,10 +769,6 @@ const updateActivityInfo = () => {
     myStepChart = new Chart(stepChart, config)
  }
 
-const getRandomUser = () => {
-    return Math.floor(Math.random() * 49) + 1;
-}
-
 const show = (event) => event.classList.remove("hidden");
     
 const hide = (event) => event.classList.add("hidden");
