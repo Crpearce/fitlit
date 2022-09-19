@@ -3,7 +3,7 @@
 ## Abstract
 Ever wanted to track and maintain your own sleep and hydration data? Use this repo to help you do just that! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a fitness tracking application which utilized a variety of technologies, including javaScript, HTML, CSS, Mocha, and Chai. The three members of our group have completed just 25% of the Turing curriculum, primarily focusing on vanilla JS to this point. The project was completed in two individual one week pushes. The project goals were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a dashboard that is easy to use and displays information in a clear way, write modular, reusable code that follows SRP, implement a robust testing suite using TDD, make network requests to retrieve data, and ensure that our app follows best practices for accessability. 
 #### User login
-![Fitlit preview]()![2022-09-19 14 50 56](https://user-images.githubusercontent.com/101376200/191114630-60e0c6a7-acce-447c-a66a-1058de24f9f7.gif)
+![2022-09-19 14 50 56](https://user-images.githubusercontent.com/101376200/191114630-60e0c6a7-acce-447c-a66a-1058de24f9f7.gif)
 #### Display view and data entry
 ![2022-09-19 14 54 49](https://user-images.githubusercontent.com/101376200/191114803-8e2340e5-a155-4bd2-8711-f7c47c8fb35c.gif)
 #### Dynamic charts for user data 
