@@ -20,6 +20,7 @@ Ever wanted to track and maintain your own sleep and hydration data? Use this re
 1. To login to the dashboard view for a user, please use the current username and password format.
 
 `username: user50 (where 50 is the ID of the user, users 1 - 50 should be acccessable)
+
 password: fitlit2022`
 
 ## Testing
