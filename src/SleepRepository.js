@@ -50,9 +50,9 @@ class SleepRepository {
           sleepArr.push(hours[hoursOrQuality])
         }
       })
-      return sleepArr
+      return sleepArr;
     }, [])
-    return sleepRange
+    return sleepRange;
   }
 
   allUsersAverageSleepQuality = () => {

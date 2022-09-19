@@ -1,6 +1,3 @@
-import userData from "./data/users";
-import UserRepository from "./UserRepository";
-
 class User {
     constructor(userData) {
         this.id = userData.id;
@@ -10,7 +7,7 @@ class User {
         this.strideLength = userData.strideLength;
         this.dailyStepGoal = userData.dailyStepGoal;
         this.friends = userData.friends;
-        this.friendNames = []
+        this.friendNames = [];
     }
 
     returnUserName = () => `Welcome ${this.name.split(" ")[0]}!`;
