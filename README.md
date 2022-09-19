@@ -33,6 +33,7 @@ There is no boilerplate for testing in this starter-kit repo. You will need to s
 
 ## Project Specs
 The project specs and rubric for Fitlit Part I can be found [here](https://frontend.turing.edu/projects/Fitlit-part-one.html)
+
 The project specs and rubric for Fitlit Part II can be found [here](https://frontend.turing.edu/projects/Fitlit-part-two.html)
 
 ## Technologies Used
